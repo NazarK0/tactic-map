@@ -1,0 +1,53 @@
+<mat-drawer-container class="page-container" autosize>
+  <mat-drawer #menu class="sidenav primary" mode="side">
+    <tm-dsg-toggler [usgId]="usgId"></tm-dsg-toggler>
+  </mat-drawer>
+  
+
+  <div class="page-content">
+    <div class="sidenav-ctrl">
+      <a
+        [routerLink]="['/settings/user-sign-group']"
+        routerLinkActiveOptions="{ exact: true }"
+        mat-mini-fab
+        color="primary"
+        aria-label="Назад"
+        title="Назад"
+        class="ctrl-button"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Меню"
+        (click)="menu.toggle()"
+        title="Меню"
+        class="ctrl-button"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    
+    <mat-progress-spinner
+      *ngIf="isLoading$ | async"
+      class="example-margin"
+      color="accent"
+      mode="indeterminate"
+      >
+    </mat-progress-spinner>
+    <p *ngIf="error$ | async">ERROR: {{error$ | async}}</p>
+    <div *ngIf="group$ | async">
+      <h1 class="form-title">Знаки</h1>
+      <h2 class="title">{{ (group$ | async)?.title }}</h2>
+      <p class="description">{{ (group$ | async)?.description }}</p>
+      <div class="sign-cards-container">
+        <tm-uas-sign-card
+          *ngFor="let sign of (group$ | async)?.signs"
+          [sign]="sign"
+          (select)="onSelectSign(sign.id)"
+        ></tm-uas-sign-card>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>

@@ -1,0 +1,26 @@
+<div class="sign-card__container">
+  <mat-card class="sign-card" [title]="signProps.description">
+    <img mat-card-image [src]="signProps.sign" class="sign-card__img" />
+    <mat-card-content class="sign-card__desc">
+      <p>
+        {{ signProps.title }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="sign-card__actions">
+      <hr />
+      <mat-checkbox
+        [name]="'signProps.id'"
+        (change)="onSelect()"
+        title="Позначити"
+      >
+      </mat-checkbox>
+      <button mat-button (click)="onEdit()" class="edit" title="Редагувати">
+        <mat-icon color="accent" aria-hidden="false">edit</mat-icon>
+      </button>
+      <button mat-button (click)="onDelete()" class="delete" title="Видалити">
+        <mat-icon color="accent" aria-hidden="false">delete</mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

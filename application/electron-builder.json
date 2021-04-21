@@ -1,0 +1,30 @@
+{
+  "productName": "Тактична карта",
+  "appId": "com.electron.tactic-map",
+  "directories": {
+    "output": "release/"
+  },
+  "files": [
+      "dist/**/*"
+  ],
+  "win": {
+    "icon": "dist/renderer/assets/icons/favicon.256x256.ico",
+    "certificateFile": "./certificate.pfx",
+    "certificatePassword": "12345",
+    "target": [
+      "portable"
+    ]
+  },
+  "mac": {
+    "icon": "dist/renderer/assets/icons",
+    "target": [
+      "dmg"
+    ]
+  },
+  "linux": {
+    "icon": "dist/renderer/assets/icons",
+    "target": [
+      "AppImage"
+    ]
+  }
+}

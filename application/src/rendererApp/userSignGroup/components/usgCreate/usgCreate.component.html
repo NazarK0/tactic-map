@@ -1,0 +1,7 @@
+<h1 class="form-title">Створити нову групу знаків</h1>
+<tm-usg-form
+  [isSubmitting]="(isSubmitting$ | async)!"
+  [error]="error$ | async"
+  [initialValues]="initialValues"
+  (formSubmit)="onSubmit($event)"
+></tm-usg-form>

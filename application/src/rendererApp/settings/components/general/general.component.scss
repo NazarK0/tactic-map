@@ -1,0 +1,32 @@
+:host{
+  display: block;
+  height: 100%;
+  .sidenav {
+    background: #3f51b5;
+    padding: 20px;
+    min-width: 200px;
+
+    &-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    &-ctrl {
+      width: fit-content;
+      display: flex;
+      flex-direction: column;
+      .ctrl-button{
+        margin: 4px;
+      }
+    }
+  }
+  .page {
+    &-container,
+    &-content {
+      height: 100%;
+    }
+  }
+  .content {
+    min-height: 100%;
+  }
+}

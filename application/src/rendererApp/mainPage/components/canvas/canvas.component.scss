@@ -1,0 +1,30 @@
+:host {
+  background: rgb(209, 231, 241);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 49px;
+  padding-left: 63px;
+  padding-bottom: 11px;
+  padding-right: 2px;
+  box-sizing: border-box;
+  .out-border {
+    box-sizing: border-box;
+    background: rgb(255, 255, 255);
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 100%;
+    max-height: 100%;
+    margin: 10px;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.863);
+    overflow: auto;
+  }
+
+  .inner-canvas {
+    // width: 500px;
+    // height: 500px;
+    // background-color: linear-gradient(0.9turn, red, orange, yellow, green, blue);;
+  }
+}

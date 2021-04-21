@@ -1,0 +1,56 @@
+<ul>
+  <li class="new">
+    <a
+      mat-fab
+      routerLink="/settings/default-sign-group/create"
+      
+      color="accent"
+      aria-label="Створити групу"
+      title="Створити групу"
+    >
+      <mat-icon>add</mat-icon>
+    </a>
+  </li>
+  <li *ngIf="isLoading$ | async">
+    <mat-progress-spinner
+      *ngIf="isLoading$ | async"
+      class="example-margin"
+      color="accent"
+      mode="indeterminate"
+      >
+    </mat-progress-spinner>
+  </li>
+  <li
+    *ngFor="let item of menuItems$ | async"
+    routerLinkActive="active-li"
+    class="li"
+  >
+    <a
+      routerLink="/settings/default-sign-group"
+      [queryParams]="{ id: item.id }"
+      routerLinkActive="active"
+      class="link"
+    >
+      {{ item.title }}
+    </a>
+    <div class="ctrl-buttons">
+      <a
+        mat-icon-button
+        [routerLink]="['/settings/default-sign-group/edit', item.id]"
+        aria-label="Редагувати"
+        title="Редагувати"
+      >
+        <mat-icon class="edit">edit</mat-icon>
+      </a>
+      <button
+        mat-icon-button
+        color="warn"
+        aria-label="Видалити"
+        title="Видалити"
+        (click)="onRemove(item.id)"
+      >
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </li>
+</ul>

@@ -1,0 +1,38 @@
+<ul class="top-toolbar">
+  <li class="menu-item">
+    <button mat-raised-button color="primary" class="menu-item__btn">
+      <mat-icon aria-hidden="false" aria-label="save" title="Зберегти">
+        save
+      </mat-icon>
+    </button>
+  </li>
+  <li class="menu-item">
+    <button mat-raised-button color="primary" class="menu-item__btn">
+      <mat-icon aria-hidden="false" aria-label="save-as" title="Зберегти як...">
+        save
+      </mat-icon>
+    </button>
+  </li>
+  <li class="menu-item">
+    <tm-upload-map></tm-upload-map>
+  </li>
+  <li class="menu-item">
+    <tm-font-panel></tm-font-panel>
+  </li>
+  <li class="menu-item">scale signs</li>
+  <li class="menu-item">scale map</li>
+  <li class="menu-item">
+    <a mat-raised-button color="primary" href="#" class="menu-item__btn">
+      <mat-icon aria-hidden="false" aria-label="notifications" title="Повідомлення">
+        notifications
+      </mat-icon>
+    </a>
+  </li>
+  <li class="menu-item">
+    <a mat-raised-button color="primary" [routerLink]="['/settings', 'general']" class="menu-item__btn" >
+      <mat-icon aria-hidden="false" aria-label="settings" title="Налаштування">
+        settings
+      </mat-icon>
+    </a>
+  </li>
+</ul>

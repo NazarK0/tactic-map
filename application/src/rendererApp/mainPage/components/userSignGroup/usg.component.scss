@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  z-index: 10;
+  .toggle-btn {
+    width: 50px;
+    min-width: 50px;
+    height: 50px;
+    margin: 14px 4px;
+    mat-icon{
+      position: relative;
+      top: -1px;
+      font-size: 35px;
+    }
+    &.active {
+      background-color: rgb(177, 16, 16);
+    }
+  }
+  .stripe {
+    position: absolute;
+    left: 70px;
+  }
+  .sign-group {
+    position: relative;
+  }
+  .group-circle {
+    position: relative;
+    left: -2px;
+    top: 1px;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: rgb(50, 221, 59);
+    border: 2px solid rgb(255, 255, 255);
+    box-shadow: 0 0 5px rgba(0, 0, 0, .8);
+  }
+}

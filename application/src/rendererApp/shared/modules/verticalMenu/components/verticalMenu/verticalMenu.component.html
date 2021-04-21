@@ -1,0 +1,22 @@
+<tm-loader *ngIf="isLoading$ | async"></tm-loader>
+<tm-error-messages *ngIf="error$ | async"></tm-error-messages>
+
+<div class="menu vertical">
+  <header>
+    <div class="menu-item" *ngIf="backUrl">
+      <a [routerLink]="[backUrl]" class="menu-item__link">
+        Назад
+      </a>
+    </div>
+    <div class="menu-item">X</div>
+  </header>
+  <main *ngIf="menuItems$">
+    <ul>
+      <li class="menu-item" *ngFor="let item of menuItems$ | async">
+        <a [routerLink]="[apiUrl, item.id]" routerLinkActive="active" class="menu-item__link">
+          {{ item.title }}
+        </a>
+      </li>
+    </ul>
+  </main>
+</div>

@@ -1,0 +1,36 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "./orm-src/client"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../../../tactic-map.db"
+}
+
+// models
+model DefaultSignGroup {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  signs       DsgSign[]
+}
+
+model DsgSign {
+  id          Int              @id @default(autoincrement())
+  sign        String
+  title       String
+  description String
+  dsgFK       Int
+  dsg         DefaultSignGroup @relation(fields: [dsgFK], references: [id])
+  usgFK       Int?
+  usg         UserSignGroup?    @relation(fields: [usgFK], references: [id])
+}
+
+model UserSignGroup {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  signs       DsgSign[]
+}

@@ -1,0 +1,61 @@
+<mat-drawer-container class="page-container" autosize>
+  <mat-drawer #menu class="sidenav primary" mode="side">
+    <tm-usg-toggler></tm-usg-toggler>
+  </mat-drawer>
+
+  <div class="page-content">
+    <div class="sidenav-ctrl">
+      <a
+        [routerLink]="['/settings']"
+        routerLinkActiveOptions="{ exact: true }"
+        mat-mini-fab
+        color="primary"
+        aria-label="Назад"
+        title="Назад"
+        class="ctrl-button"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <button
+        mat-mini-fab
+        color="primary"
+        aria-label="Меню"
+        (click)="menu.toggle()"
+        title="Меню"
+        class="ctrl-button"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    
+    <mat-progress-spinner
+      *ngIf="isLoading$ | async"
+      class="example-margin"
+      color="accent"
+      mode="indeterminate"
+      >
+    </mat-progress-spinner>
+    <p *ngIf="error$ | async">ERROR: {{error$ | async}}</p>
+    <div *ngIf="group$ | async">
+      <h1 class="form-title">Знаки</h1>
+      <h2 class="title">{{ (group$ | async)?.title }}</h2>
+      <p class="description">{{ (group$ | async)?.description }}</p>
+      <div class="sign-cards-container">
+        <tm-usg-sign-card
+          *ngFor="let sign of (group$ | async)?.signs"
+          [sign]="sign"
+          (select)="onSelectSign(sign.id)"
+          (delete)="onRemoveSign(sign.id)"
+        ></tm-usg-sign-card>
+        <a
+          [routerLink]="['/settings/user-sign-group', (group$ | async)?.id, 'add-signs']"
+          class="sign-card add"
+          mat-raised-button
+          title="Додати знаки"
+        >
+          <img src="../../../../assets/icons/material/material-icon-plus.png" />
+        </a>
+      </div>
+    </div>
+  </div>
+</mat-drawer-container>

@@ -1,0 +1,15 @@
+<h1 class="form-title">Редагувати знак</h1>
+<mat-progress-spinner
+  *ngIf="isLoading$ | async"
+  class="example-margin"
+  color="accent"
+  mode="indeterminate"
+  >
+</mat-progress-spinner>
+<tm-dsg-sign-form
+  [isSubmitting]="(isSubmitting$ | async)!"
+  [error]="error$ | async"
+  [initialValues]="initialValues$ | async"
+  (formSubmit)="onSubmit($event)"
+  mode = 'edit'
+></tm-dsg-sign-form>

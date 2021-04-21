@@ -1,0 +1,7 @@
+<h1>Створити нову групу знаків</h1>
+<tm-dsg-form
+  [isSubmitting]="(isSubmitting$ | async)!"
+  [error]="error$ | async"
+  [initialValues]="initialValues"
+  (formSubmit)="onSubmit($event)"
+></tm-dsg-form>

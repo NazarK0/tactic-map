@@ -1,0 +1,16 @@
+
+<mat-progress-spinner
+  *ngIf="isLoading$ | async"
+  class="example-margin"
+  color="accent"
+  mode="indeterminate"
+  >
+</mat-progress-spinner>
+<h1>Редагувати групу знаків</h1>
+<tm-dsg-form
+  *ngIf="(initialValues$ | async)!"
+  [initialValues]="(initialValues$ | async)!"
+  [isSubmitting]="(isSubmitting$ | async)!"
+  [error]="error$ | async"
+  (formSubmit)="onSubmit($event)"
+></tm-dsg-form>

@@ -1,0 +1,25 @@
+<button mat-icon-button color="primary" aria-label="up" title="Вверх">
+  <mat-icon>keyboard_arrow_up</mat-icon>
+</button>
+<div class="container out">
+  <div class="container in" (scroll)="onScroll($event)">
+    <mat-progress-spinner
+      *ngIf="isLoading$ | async"
+      class="example-margin"
+      color="accent"
+      diameter="30"
+      strokeWidth="6"
+      mode="indeterminate"
+      >
+    </mat-progress-spinner>
+    <tm-usg
+      *ngFor="let group of usgList$ | async"
+      [usg]="group"
+      [scrollTop]="scrollTop"
+      (selectSign)="onSelectSign($event)"
+    ></tm-usg>
+  </div>
+</div>
+<button mat-icon-button color="primary" aria-label="down" title="Вниз">
+  <mat-icon>keyboard_arrow_down</mat-icon>
+</button>

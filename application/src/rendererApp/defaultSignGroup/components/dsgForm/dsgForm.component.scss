@@ -1,0 +1,15 @@
+:host {
+  h1{
+    text-align: center;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    button {
+      align-self: center;
+      i {
+        font-size: 2rem;
+      }
+    }
+  }
+}

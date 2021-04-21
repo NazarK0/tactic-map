@@ -1,0 +1,8 @@
+<h1 class="form-title">Додати знак</h1>
+<tm-dsg-sign-form
+  [isSubmitting]="(isSubmitting$ | async)!"
+  [error]="error$ | async"
+  [initialValues]="initialValues"
+  (formSubmit)="onSubmit($event)"
+  mode = 'add'
+></tm-dsg-sign-form>

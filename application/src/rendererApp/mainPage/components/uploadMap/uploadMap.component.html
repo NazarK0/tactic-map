@@ -1,0 +1,11 @@
+<button
+  mat-raised-button
+  color="primary"
+  class="top-toolbar-btn"
+  (click)="onUploadMap()"
+  [disabled]="isSubmitting$ | async"
+>
+  <mat-icon aria-hidden="false" aria-label="load-map" title="Завантажити карту">
+    terrain
+  </mat-icon>
+</button>

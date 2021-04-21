@@ -1,0 +1,20 @@
+:host {
+  li {
+    display: flex;
+    height: 35px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    &.li {
+      justify-content: space-between;
+    }
+    & .link {
+      margin-right: 40px;
+    }
+    & .active {
+      color: #ff4081;
+      text-shadow: 0 0 4px #000;
+      font-style: italic;
+      font-size: 110%;
+    }
+  }
+}

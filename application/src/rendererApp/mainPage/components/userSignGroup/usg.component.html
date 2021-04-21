@@ -1,0 +1,34 @@
+<div class="">
+  <div class="stripe" *ngIf="showSigns">
+    <mat-button-toggle-group
+      [name]="'usgProps.id'"
+      [style.top]="offsetTop"
+      [value]="usgProps.selectedSign?.value"
+      class="sign-group"
+      (change)="onSelectSign($event)"
+    >
+      <mat-button-toggle
+        *ngFor="let item of usgProps.signs;"
+        [value]="item.sign"
+        class="stripe-btn"
+        [aria-label]="item.title"
+        [id]="'item.id'"
+        [title]="item.description"
+      >
+        <img [src]="item.sign" />
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <button
+    mat-raised-button
+    color="primary"
+    class="usg-btn"
+    class="toggle-btn"
+    [ngClass]="{ 'active': usgProps.isSelected}"
+    (click)="onToggle()"
+    [title]="usgProps.title"
+  >
+    <img *ngIf="usgProps.isSelected" [src]="usgProps.selectedSign?.value">
+    <div *ngIf="!usgProps.isSelected" class="group-circle"></div>
+  </button>
+</div>

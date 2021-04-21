@@ -1,0 +1,28 @@
+<mat-drawer-container class="page-container" autosize>
+  <mat-drawer #menu class="sidenav primary" mode="side">
+    <tm-settings-toggler></tm-settings-toggler>
+  </mat-drawer>
+
+  <div class="page-content">
+    <div class="sidenav-ctrl">
+      <a
+        [routerLink]="['/']"
+        routerLinkActiveOptions="{ exact: true }"
+        mat-mini-fab color="primary" aria-label="Назад"
+        title="Назад"
+        class="ctrl-button"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </a>
+      <button
+        mat-mini-fab color="primary" aria-label="Меню"
+        (click)="menu.toggle()"
+        title="Меню"
+        class="ctrl-button"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <!-- <tm-settings-item *ngIf="hasItem"></tm-settings-item> -->
+  </div>
+</mat-drawer-container>

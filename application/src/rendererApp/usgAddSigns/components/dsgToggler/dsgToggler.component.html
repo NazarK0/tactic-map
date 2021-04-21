@@ -1,0 +1,25 @@
+<ul>
+  <li *ngIf="isLoading$ | async">
+    <mat-progress-spinner
+      *ngIf="isLoading$ | async"
+      class="example-margin"
+      color="accent"
+      mode="indeterminate"
+      >
+    </mat-progress-spinner>
+  </li>
+  <li
+    *ngFor="let item of menuItems$ | async"
+    routerLinkActive="active-li"
+    class="li"
+  >
+    <a
+      [routerLink]="['/settings/user-sign-group', usgIdProps, 'add-signs']"
+      [queryParams]="{ dsgId: item.id }"
+      routerLinkActive="active"
+      class="link"
+    >
+      {{ item.title }}
+    </a>
+  </li>
+</ul>

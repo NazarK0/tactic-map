@@ -1,0 +1,17 @@
+@import "../../../../stylesheets/dimensions.scss";
+
+:host {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: $verticalMenuWith;
+
+  .menu.vertical {
+    background-color: rgb(151, 151, 151);
+    header, main {
+      width: $verticalMenuWith;
+    }
+  }
+}

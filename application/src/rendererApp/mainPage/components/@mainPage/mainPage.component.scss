@@ -1,0 +1,19 @@
+$left-toolbar-top: 22px;
+$left-toolbar-left: 2px;
+$top-toolbar-top: 0;
+$top-toolbar-left: 75px;
+
+:host {
+  display: block;
+  height: 100%;
+  tm-left-toolbar {
+    position: absolute;
+    left: $left-toolbar-left;
+    top: $left-toolbar-top;
+  }
+  tm-top-toolbar {
+    position: absolute;
+    left: $top-toolbar-left;
+    top: $top-toolbar-top;
+  }
+}

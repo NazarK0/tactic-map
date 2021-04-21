@@ -1,0 +1,41 @@
+:host {
+  li {
+    display: flex;
+    // justify-content: space-between;
+    height: 35px;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    .ctrl-buttons {
+      display: none;
+    }
+    &.new {
+      justify-content: space-around;
+      height: fit-content;
+      margin-bottom: 18px;
+    }
+    &.li {
+      justify-content: space-between;
+    }
+    & .link {
+      margin-right: 40px;
+    }
+    & .active {
+      color: #ff4081;
+      text-shadow: 0 0 4px #000;
+      font-style: italic;
+      font-size: 110%;
+    }
+    &.active-li .ctrl-buttons {
+      display: block;
+      width: fit-content;
+      position: relative;
+      top: -10px;
+      mat-icon {
+        font-size: 20px;
+        &.edit {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
