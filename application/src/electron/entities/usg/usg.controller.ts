@@ -7,6 +7,8 @@ import IpcMessage from "../../types/ipcMessage.enum";
 import USG_Attributes from '../../types/usg.attributes';
 import { Sequelize } from "sequelize/types";
 import DSG_SignAttributes from "types/dsgSign.attributes";
+import UserSignGroup from "../../models/usg.model";
+import DsgSign from "../../models/dsgSign.model";
 
 export default function usgController(sequelize: Sequelize, window: BrowserWindow): void {
   ipcMain.on(IpcMessage.USG_Create, async (event, args) => {
@@ -14,7 +16,8 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const usg: USG_Attributes = (await sequelize.models.UserSignGroup.create(data)) as unknown as USG_Attributes;
+      const usg: USG_Attributes = (await UserSignGroup.create(data)) as unknown as USG_Attributes;
+      console.log('CREATE USG CTR', usg)
 
       response = {
         data: usg,
@@ -35,7 +38,8 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const usg: USG_Attributes = (await sequelize.models.UserSignGroup.update(data, { where: { id: queryParams.id }})) as unknown as USG_Attributes;
+      const usg: USG_Attributes = (await UserSignGroup.update(data, { where: { id: queryParams.id }})) as unknown as USG_Attributes;
+      console.log('UPDATE USG CTR', usg)
 
       response = {
         data: usg,
@@ -56,7 +60,8 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const usg: USG_Attributes = (await sequelize.models.UserSignGroup.findByPk(queryParams.id, { raw: true })) as unknown as USG_Attributes;
+      const usg: USG_Attributes = (await UserSignGroup.findByPk(queryParams.id, { raw: true })) as unknown as USG_Attributes;
+      console.log('GET USG CTR', usg)
 
       response = {
         data: usg,
@@ -76,7 +81,8 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const menu: VMenuItemInterface[] = (await sequelize.models.UserSignGroup.findAll({ raw: true, attributes: ['id', 'title'] })) as unknown as VMenuItemInterface[];
+      const menu: VMenuItemInterface[] = (await UserSignGroup.findAll({ raw: true, attributes: ['id', 'title'] })) as unknown as VMenuItemInterface[];
+      console.log('GET USG MENU CTR', menu)
 
       response = {
         data: menu,
@@ -96,7 +102,10 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const list: USG_Attributes[] = (await sequelize.models.UserSignGroup.findAll({ raw: true })) as unknown as USG_Attributes[];
+      // const list: USG_Attributes[] = [];
+      console.log(sequelize.models, 'MODELS')
+      const list: USG_Attributes[] = (await UserSignGroup.findAll({ raw: true })) as unknown as USG_Attributes[];
+      console.log('USG LIST CTR', list)
 
       response = {
         data: list,
@@ -117,7 +126,8 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      await sequelize.models.UserSignGroup.destroy({ where: { id: queryParams. id }})
+      await UserSignGroup.destroy({ where: { id: queryParams. id }})
+      console.log('DELETE USG CTR')
 
       response = {
         status: 'ok'
@@ -137,13 +147,14 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const deleted = await sequelize.models.DsgSign.update({
-        usgFK: null,
-      }, {
-        where: {
-          id: queryParams.id
-        }
-      });
+      const deleted = null
+      // const deleted = await DsgSign.update({
+      //   usgFK: null,
+      // }, {
+      //   where: {
+      //     id: queryParams.id
+      //   }
+      // });
   
       const updatedList = (await sequelize.models.DsgSign.findAll({
         // where: { usgFK: deleted.usgFK },
@@ -173,7 +184,7 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const sign = await sequelize.models.DsgSign.findByPk(id,
+      const sign = await DsgSign.findByPk(id,
         // {include: { usg: true }}
       );
   
@@ -228,12 +239,13 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const newSign = await sequelize.models.DsgSign.update({
-        usgFK: usgId,
-      }, {
-        where: { id: signId },
-        // include: { usg: true, dsg: true }
-      });
+      const newSign = null;
+      // const newSign = await DsgSign.update({
+      //   usgFK: usgId,
+      // }, {
+      //   where: { id: signId },
+      //   // include: { usg: true, dsg: true }
+      // });
 
       response = {
         status: 'ok',
@@ -254,7 +266,7 @@ export default function usgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const sign = (await sequelize.models.DsgSign.findByPk(id)) as unknown as DSG_SignAttributes;
+      const sign = (await DsgSign.findByPk(id)) as unknown as DSG_SignAttributes;
 
       response = {
         status: 'ok',

@@ -15,12 +15,15 @@ export default class SessionStorageService {
   }
 
   get(key: string): any  {
-    try {
-      return JSON.parse(sessionStorage.getItem(key) || '');
-    } catch (error) {
-      console.error('Error getting data from sessionStorage', error);
-      return null;
-    }
+    if (key) {
+      try {
+        return JSON.parse(sessionStorage.getItem(key) || '');
+      } catch (error) {
+        // console.error('Error getting data from sessionStorage', error);
+        return null;
+      } 
+    } else return null;
+   
   }
 
   getSelectedUSG(): Observable<SelectedMilSignInterface> {

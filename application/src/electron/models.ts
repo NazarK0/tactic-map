@@ -24,8 +24,9 @@ export default function modelsInit(sequelize: Sequelize) {
   User.init({
     id: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
       primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
     },
     login: {
       type: new DataTypes.STRING(30),
@@ -58,18 +59,22 @@ export default function modelsInit(sequelize: Sequelize) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      allowNull: false,
+      unique: true,
     },
     sign: {
       type: new DataTypes.STRING(255),
       allowNull: false,
     },
     title: {
-      type: new DataTypes.STRING(200),
+      type: new DataTypes.STRING(30),
       allowNull: false,
+      defaultValue: 'Неназваний знак'
     },
     description: {
       type: new DataTypes.STRING(200),
       allowNull: false,
+      defaultValue: '',
     },
   }, {
       tableName: "dsgSigns",
@@ -94,22 +99,26 @@ export default function modelsInit(sequelize: Sequelize) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      allowNull: false,
+      unique: true,
     },
     title: {
       type: new DataTypes.STRING(30),
       allowNull: false,
+      defaultValue: 'Неназвана група'
     },
     description: {
       type: new DataTypes.STRING(200),
-      allowNull: true,
+      allowNull: false,
+      defaultValue: ''
     },
   }, {
       tableName: "defaultSignGroups",
       sequelize, // passing the `sequelize` instance is required
   })
 
-  DefaultSignGroup.hasMany(DsgSign, { onDelete: 'cascade', foreignKey: {name: 'dsgFK', allowNull: false } });
-  DsgSign.belongsTo(DefaultSignGroup);
+  
+  // DsgSign.belongsTo(DefaultSignGroup);
   
   class UserSignGroup 
     extends Model<USG_Attributes, USG_CreationAttributes> 
@@ -128,21 +137,31 @@ export default function modelsInit(sequelize: Sequelize) {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
+      allowNull: false,
+      unique: true,
     },
     title: {
       type: new DataTypes.STRING(30),
       allowNull: false,
+      defaultValue: 'Неназвана група'
     },
     description: {
       type: new DataTypes.STRING(200),
-      allowNull: true,
+      allowNull: false,
+      defaultValue: ''
     },
   }, {
       tableName: "userSignGroups",
       sequelize, // passing the `sequelize` instance is required
   })
 
-  UserSignGroup.hasMany(DsgSign, { onDelete: 'setnull', foreignKey: 'usgFK' })
+  DefaultSignGroup.hasMany(DsgSign, { onDelete: 'cascade', foreignKey: {name: 'dsgFK' } });
+  UserSignGroup.hasMany(DsgSign, { onDelete: 'set null', foreignKey: 'usgFK' });
 
-
+  const models = {
+    dsg: DefaultSignGroup,
+    usg: UserSignGroup,
+    dsgSign: DsgSign
+  }
+  return models;
 };

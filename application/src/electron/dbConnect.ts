@@ -1,5 +1,8 @@
-import modelsInit from './models';
 import { Sequelize } from 'sequelize';
+import { dsgModelInit } from './models/dsg.model';
+import { dsgSignModelsInit } from './models/dsgSign.model';
+import { usgModelInit } from './models/usg.model';
+import { userModelsInit } from './models/user.model';
 
 // const dbConnect = new Sequelize({
 //     dialect: 'sqlite',
@@ -54,7 +57,12 @@ export default class DbConnect {
   }
 
   initModels() {
-    modelsInit(this.seqelize);
+    // modelsInit(this.seqelize);
+    dsgModelInit(this.seqelize);
+    dsgSignModelsInit(this.seqelize);
+    usgModelInit(this.seqelize);
+    userModelsInit(this.seqelize)
+
   }
 
   syncModels() {

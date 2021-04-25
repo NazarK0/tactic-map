@@ -12,12 +12,14 @@ export default class LocalStorageService {
   }
 
   get(key: string): any  {
-    try {
-      return JSON.parse(localStorage.getItem(key) || '');
-    } catch (error) {
-      console.error('Error getting data from localStorage', error);
-      return null;
-    }
+    if (key) {
+      try {
+        return JSON.parse(localStorage.getItem(key) || '');
+      } catch (error) {
+        // console.error('Error getting data from localStorage', error);
+        return null;
+      }
+    } else return null;
   }
 
   setMap(map: string): Observable<{}> {

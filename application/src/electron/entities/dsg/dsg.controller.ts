@@ -20,6 +20,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
     try {
       const dsg: DSG_Interface = (await sequelize.models.DefaultSignGroup.create(data)) as unknown as DSG_Interface;
       // const dsg = await dsgCreate(data);
+      console.log(dsg, 'DSG CREATE CTR')
 
       response = {
         data: dsg,
@@ -41,6 +42,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
     try {
       const dsg: DSG_Interface = (await sequelize.models.DefaultSignGroup.update(data, { where: { id: queryParams.id }})) as unknown as DSG_Interface;
+      console.log(dsg, 'DSG UPDATE CTR')
 
       response = {
         data: dsg,
@@ -62,6 +64,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
     try {
       const dsg: DSG_Interface = (await sequelize.models.DefaultSignGroup.findByPk(queryParams.id, { raw: true })) as unknown as DSG_Interface;
+      console.log(dsg, 'DSG GET BY ID CTR')
 
       response = {
         data: dsg,
@@ -83,6 +86,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
     try {
       const menu: VMenuItemInterface[] = (await sequelize.models.DefaultSignGroup.findAll({ raw: true, attributes: ['id', 'title'] })) as unknown as VMenuItemInterface[];
       // const menu: VMenuItemInterface[] = await dsgGetMenuList();
+      console.log(menu, 'DSG MENU CTR')
 
       response = {
         data: menu,
@@ -104,6 +108,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
     try {
       await sequelize.models.DefaultSignGroup.destroy({ where: { id: queryParams. id }})
+      console.log('DSG DELETE CTR')
 
       response = {
         status: 'ok'
@@ -123,7 +128,10 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
     let response: IpcBodyInterface;
 
     try {
-      const updatedList: DSG_SignInterface[] = (await sequelize.models.DefaultSignGroup.update({ dsgSign: null }, { where: { id: queryParams.id } })) as unknown as DSG_SignInterface[];
+      await sequelize.models.DsgSign.destroy({ where: { id: queryParams.id } })
+      const updatedList: DSG_SignInterface[] = (await sequelize.models.DsgSign.findAll()) as unknown as DSG_SignInterface[];
+      console.log('DSG DELETE SIGN CTR')
+      console.table(updatedList);
 
       response = {
         status: 'ok',
@@ -178,6 +186,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
           ...sign,
 
       })) as unknown as DSG_SignInterface;
+      console.log('CREATE DSG SIGN CTR', newSign)
 
       response = {
         status: 'ok',
@@ -199,6 +208,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
     try {
       const sign: DSG_SignInterface = (await sequelize.models.DsgSign.findByPk(id)) as unknown as DSG_SignInterface;
+      console.log('GET DSG SIGN CTR', sign)
 
       response = {
         status: 'ok',
@@ -223,6 +233,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
         where: { id }
       });
 
+      console.log('UPDATE DSG SIGN CTR', updatedSign)
       response = {
         status: 'ok',
         data: updatedSign
