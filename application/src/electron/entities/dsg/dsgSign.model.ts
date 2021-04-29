@@ -2,21 +2,8 @@ import { DataTypes, Model, ModelDefined, Sequelize } from 'sequelize';
 import DSG_SignAttributes from 'types/dsgSign.attributes';
 import DSG_SignCreationAttributes from 'types/dsgSignCreation.attributes';
 
-export default class DsgSign 
-    extends Model<DSG_SignAttributes, DSG_SignCreationAttributes> 
-    implements DSG_SignAttributes {
-      id: number;
-      sign: string;
-      title: string;
-      description: string;
-
-      // timestamps!
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
-  };
-
-export function dsgSignModelsInit(sequelize: Sequelize): void {
-  DsgSign.init({
+export default function dsgSignModelsInit(sequelize: Sequelize): ModelDefined<DSG_SignAttributes, DSG_SignCreationAttributes> {
+  const model: ModelDefined<DSG_SignAttributes, DSG_SignCreationAttributes> = sequelize.define("DsgSigns", {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -38,8 +25,7 @@ export function dsgSignModelsInit(sequelize: Sequelize): void {
       allowNull: false,
       defaultValue: '',
     },
-  }, {
-      tableName: "dsgSigns",
-      sequelize, // passing the `sequelize` instance is required
   })
+
+  return model;
 };

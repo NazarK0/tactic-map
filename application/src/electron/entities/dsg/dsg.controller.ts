@@ -1,24 +1,20 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { BrowserWindow, dialog, ipcMain } from "electron";
+import ModelsInterface from "types/models.interface";
 
-import VMenuItemInterface from '../../types/vmenuItem.interface';
-import { Sequelize } from "sequelize/types";
-import DSG_Interface from "types/dsg.attributes";
-import DSG_SignInterface from "types/dsgSign.attributes";
 import dsgIpcMessages from "./dsg.ipcMessages";
-import IpcBodyInterface from "../../types/ipcBody.interface";
 
-export default function dsgController(sequelize: Sequelize, window: BrowserWindow): void {
-  if (!sequelize) {
-    throw new Error('No database instanse in controller')
-  }
+export default function dsgController(models: ModelsInterface, window: BrowserWindow): void {
+  // if (!sequelize) {
+  //   throw new Error('No database instanse in controller')
+  // }
 
   ipcMain.on(dsgIpcMessages.DSG_Create, async (event, args) => {
     const { data } = args;
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      const dsg: DSG_Interface = (await sequelize.models.DefaultSignGroup.create(data)) as unknown as DSG_Interface;
+      const dsg = await models.defaultSignGroup.create(data);
       // const dsg = await dsgCreate(data);
       console.log(dsg, 'DSG CREATE CTR')
 
@@ -38,10 +34,10 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
   ipcMain.on(dsgIpcMessages.DSG_Update, async (event, args) => {
     const { data, queryParams } = args;
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      const dsg: DSG_Interface = (await sequelize.models.DefaultSignGroup.update(data, { where: { id: queryParams.id }})) as unknown as DSG_Interface;
+      const dsg = await models.defaultSignGroup.update(data, { where: { id: queryParams.id }});
       console.log(dsg, 'DSG UPDATE CTR')
 
       response = {
@@ -60,10 +56,10 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
   ipcMain.on(dsgIpcMessages.DSG_GetById, async (event, args) => {
     const { queryParams } = args;
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      const dsg: DSG_Interface = (await sequelize.models.DefaultSignGroup.findByPk(queryParams.id, { raw: true })) as unknown as DSG_Interface;
+      const dsg = await models.defaultSignGroup.findByPk(queryParams.id, { raw: true });
       console.log(dsg, 'DSG GET BY ID CTR')
 
       response = {
@@ -81,10 +77,10 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
   });
 
   ipcMain.on(dsgIpcMessages.DSG_GetMenu, async (event) => {
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      const menu: VMenuItemInterface[] = (await sequelize.models.DefaultSignGroup.findAll({ raw: true, attributes: ['id', 'title'] })) as unknown as VMenuItemInterface[];
+      const menu = await models.defaultSignGroup.findAll({ raw: true, attributes: ['id', 'title'] });
       // const menu: VMenuItemInterface[] = await dsgGetMenuList();
       console.log(menu, 'DSG MENU CTR')
 
@@ -104,10 +100,10 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
   ipcMain.on(dsgIpcMessages.DSG_DeleteById, async (event, args) => {
     const { queryParams } = args;
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      await sequelize.models.DefaultSignGroup.destroy({ where: { id: queryParams. id }})
+      await models.defaultSignGroup.destroy({ where: { id: queryParams. id }})
       console.log('DSG DELETE CTR')
 
       response = {
@@ -125,11 +121,11 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
   ipcMain.on(dsgIpcMessages.DSG_DeleteSignById, async (event, args) => {
     const { queryParams } = args;
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      await sequelize.models.DsgSign.destroy({ where: { id: queryParams.id } })
-      const updatedList: DSG_SignInterface[] = (await sequelize.models.DsgSign.findAll()) as unknown as DSG_SignInterface[];
+      await models.dsgSign.destroy({ where: { id: queryParams.id } })
+      const updatedList = await models.dsgSign.findAll();
       console.log('DSG DELETE SIGN CTR')
       console.table(updatedList);
 
@@ -148,7 +144,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
   });
 
   ipcMain.on(dsgIpcMessages.DSG_UploadImage, async (event) => {
-    let response: IpcBodyInterface;
+    let response;
 
     try {
 
@@ -158,7 +154,7 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
         filters: [{ name: 'Зображення', extensions: ['png', 'svg']}]
       });
     
-      const sign: string = file.canceled ? null : file.filePaths[0];
+      const sign = file.canceled ? null : file.filePaths[0];
       // const sign: DSG_SignInterface = await uploadImage(window);
 
       response = {
@@ -177,15 +173,15 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
   ipcMain.on(dsgIpcMessages.DSG_AddSign, async (event, args) => {
     const { queryParams: { dsgId, sign } } = args;
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      const newSign: DSG_SignInterface = (await sequelize.models.DsgSign.create({
+      const newSign = await models.dsgSign.create({
 
           dsgFK: dsgId,
           ...sign,
 
-      })) as unknown as DSG_SignInterface;
+      })
       console.log('CREATE DSG SIGN CTR', newSign)
 
       response = {
@@ -204,10 +200,10 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
   ipcMain.on(dsgIpcMessages.DSG_GetSign, async (event, args) => {
     const { queryParams: { id } } = args;
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      const sign: DSG_SignInterface = (await sequelize.models.DsgSign.findByPk(id)) as unknown as DSG_SignInterface;
+      const sign = await models.dsgSign.findByPk(id);
       console.log('GET DSG SIGN CTR', sign)
 
       response = {
@@ -226,10 +222,10 @@ export default function dsgController(sequelize: Sequelize, window: BrowserWindo
 
   ipcMain.on(dsgIpcMessages.DSG_EditSign, async (event, args) => {
     const { queryParams: { id, signInput } } = args;
-    let response: IpcBodyInterface;
+    let response;
 
     try {
-      const updatedSign = await await sequelize.models.DsgSign.update(signInput, {
+      const updatedSign = await models.dsgSign.update(signInput, {
         where: { id }
       });
 

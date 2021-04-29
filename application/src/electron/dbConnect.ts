@@ -1,44 +1,27 @@
 import { Sequelize } from 'sequelize';
-import { dsgModelInit } from './models/dsg.model';
-import { dsgSignModelsInit } from './models/dsgSign.model';
-import { usgModelInit } from './models/usg.model';
-import { userModelsInit } from './models/user.model';
-
-// const dbConnect = new Sequelize({
-//     dialect: 'sqlite',
-//     storage: '../../test.db'
-//   });
-
-// export function testConnection() {
-//   try {
-//     dbConnect.authenticate()
-//       .then(() => {
-//         console.log('Connection has been established successfully.');
-//       });
-//   } catch (error) {
-//       console.error('Unable to connect to the database:', error);
-//   }
-// }
-
-// export function syncModels() {
-//   dbConnect.sync({ force: true })
-//     .then(() => console.log('db models synchronization complete.'));
-// }
-
-// export function disconnect() {
-//   dbConnect.close()
-//     .then(() => console.log('db connection closed.'));
-// }
-  
+import dsgModelInit from './entities/dsg/dsg.model';
+import dsgSignModelsInit from './entities/dsg/dsgSign.model';
+import usgModelInit from './entities/usg/usg.model';
+import ModelsInterface from 'types/models.interface';
 
 export default class DbConnect {
-  private seqelize: Sequelize;
+  private seqelize!: Sequelize;
+  models: ModelsInterface;
 
   constructor(pahtToDb: string) {
     this.seqelize = new Sequelize({
       dialect: 'sqlite',
       storage: pahtToDb
     });
+
+    this.models = {
+      dsgSign: null,
+      defaultSignGroup: null,
+      userSignGroup: null
+  };
+
+    this.initModels();
+    this.syncModels();
   }
 
   get instance() {
@@ -56,16 +39,13 @@ export default class DbConnect {
     }
   }
 
-  initModels() {
-    // modelsInit(this.seqelize);
-    dsgModelInit(this.seqelize);
-    dsgSignModelsInit(this.seqelize);
-    usgModelInit(this.seqelize);
-    userModelsInit(this.seqelize)
-
+  private initModels() {
+    this.models.dsgSign = dsgSignModelsInit(this.seqelize);
+    this.models.defaultSignGroup = dsgModelInit(this.seqelize);
+    this.models.userSignGroup = usgModelInit(this.seqelize);
   }
 
-  syncModels() {
+  private syncModels() {
     this.seqelize.sync({ alter: true })
       .then(() => console.log('db models synchronization complete.'));
   }
@@ -74,5 +54,4 @@ export default class DbConnect {
     this.seqelize.close()
       .then(() => console.log('db connection closed.'));
   }
-
 }

@@ -1,6 +1,5 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import * as path from 'path'
-import userController from './entities/user/user.controller';
 import DbConnect from './dbConnect'
 import usgController from './entities/usg/usg.controller';
 import dsgController from './entities/dsg/dsg.controller';
@@ -10,7 +9,6 @@ let win: BrowserWindow | null;
 const db = new DbConnect(path.join(app.getPath("documents"),'tactic-map', 'database.sqlite'));
 
 db.testConnection();
-// db.initModels();
 // db.syncModels();
 
 app.on('ready', createWindow)
@@ -41,9 +39,7 @@ function createWindow() {
 }
 
 function ininializeControllers(db: DbConnect, win: BrowserWindow) {
-  console.log(db.instance, 'INSTANCE')
-  userController(db.instance, win);
-  usgController(db.instance, win);
-  dsgController(db.instance, win);
+  usgController(db.models, win);
+  dsgController(db.models, win);
   topToolbarController(win);
 }
