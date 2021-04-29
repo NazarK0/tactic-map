@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { BrowserWindow, dialog, ipcMain } from "electron";
+import appFolders from "../../constants/appResourceFolders";
+import { App, BrowserWindow, dialog, ipcMain } from "electron";
+import * as fs from 'fs';
+import * as path from 'path';
 import ModelsInterface from "types/models.interface";
 
 import dsgIpcMessages from "./dsg.ipcMessages";
 
-export default function dsgController(models: ModelsInterface, window: BrowserWindow): void {
+export default function dsgController(models: ModelsInterface, window: BrowserWindow, app: App): void {
   // if (!sequelize) {
   //   throw new Error('No database instanse in controller')
   // }
@@ -175,11 +178,18 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     const { queryParams: { dsgId, sign } } = args;
     let response;
 
+    const imgOriginalPath = sign.sign;
+    const { base } = path.parse(imgOriginalPath);
+    const resultPath = path.join(app.getPath('documents'), 'tactic-map', appFolders.dsgSigns, base);
+
+    fs.copyFileSync(imgOriginalPath, resultPath);
+
     try {
       const newSign = await models.dsgSign.create({
 
           dsgFK: dsgId,
           ...sign,
+          sign: resultPath
 
       })
       console.log('CREATE DSG SIGN CTR', newSign)

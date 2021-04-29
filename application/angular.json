@@ -16,7 +16,7 @@
           "strict": true
         }
       },
-      "root": "",
+      "root": "src/rendererApp",
       "sourceRoot": "src",
       "prefix": "tm",
       "architect": {

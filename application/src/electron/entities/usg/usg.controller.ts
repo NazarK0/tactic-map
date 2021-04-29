@@ -3,17 +3,13 @@ import { BrowserWindow, ipcMain } from "electron";
 
 import IpcBodyInterface from "../../types/ipcBody.interface";
 import VMenuItemInterface from '../../types/vmenuItem.interface';
-import IpcMessage from "../../types/ipcMessage.enum";
 import USG_Attributes from '../../types/usg.attributes';
-import { Sequelize } from "sequelize/types";
 import DSG_SignAttributes from "types/dsgSign.attributes";
-import UserSignGroup from "./usg.model";
-import DsgSign from "../dsg/dsgSign.model";
 import ModelsInterface from "types/models.interface";
-import DbConnect from "dbConnect";
+import usgIpcMessages from "./usg.ipcMessages";
 
 export default function usgController(models: ModelsInterface, window: BrowserWindow): void {
-  ipcMain.on(IpcMessage.USG_Create, async (event, args) => {
+  ipcMain.on(usgIpcMessages.USG_Create, async (event, args) => {
     const { data } = args;
     let response: IpcBodyInterface;
 
@@ -35,7 +31,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(IpcMessage.USG_Update, async (event, args) => {
+  ipcMain.on(usgIpcMessages.USG_Update, async (event, args) => {
     const { data, queryParams } = args;
     let response: IpcBodyInterface;
 
@@ -57,7 +53,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(IpcMessage.USG_GetById, async (event, args) => {
+  ipcMain.on(usgIpcMessages.USG_GetById, async (event, args) => {
     const { queryParams } = args;
     let response: IpcBodyInterface;
 
@@ -79,7 +75,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(IpcMessage.USG_GetMenu, async (event) => {
+  ipcMain.on(usgIpcMessages.USG_GetMenu, async (event) => {
     let response: IpcBodyInterface;
 
     try {
@@ -100,7 +96,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(IpcMessage.USG_GetList, async (event) => {
+  ipcMain.on(usgIpcMessages.USG_GetList, async (event) => {
     let response: IpcBodyInterface;
 
     try {
@@ -125,7 +121,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(IpcMessage.USG_DeleteById, async (event, args) => {
+  ipcMain.on(usgIpcMessages.USG_DeleteById, async (event, args) => {
     const { queryParams } = args;
     let response: IpcBodyInterface;
 
@@ -146,7 +142,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(IpcMessage.USG_DeleteSignById, async (event, args) => {
+  ipcMain.on(usgIpcMessages.USG_DeleteSignById, async (event, args) => {
     const { queryParams } = args;
     let response: IpcBodyInterface;
 
@@ -183,7 +179,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(IpcMessage.USG_ToggleSignStatus, async (event, args) => {
+  ipcMain.on(usgIpcMessages.USG_ToggleSignStatus, async (event, args) => {
     const { queryParams: { id, usgId } } = args;
     let response: IpcBodyInterface;
 
@@ -218,7 +214,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  // ipcMain.on(IpcMessage.USG_UploadImage, async (event) => {
+  // ipcMain.on(usgIpcMessages.USG_UploadImage, async (event) => {
   //   let response: IpcBodyInterface;
 
   //   try {
@@ -238,7 +234,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
   //   }
   // });
 
-  ipcMain.on(IpcMessage.USG_AddSign, async (event, args) => {
+  ipcMain.on(usgIpcMessages.USG_AddSign, async (event, args) => {
     const { queryParams: { usgId, sign: signId } } = args;
     let response: IpcBodyInterface;
 
@@ -265,7 +261,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(IpcMessage.USG_GetSign, async (event, args) => {
+  ipcMain.on(usgIpcMessages.USG_GetSign, async (event, args) => {
     const { queryParams: { id } } = args;
     let response: IpcBodyInterface;
 
@@ -286,7 +282,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  // ipcMain.on(IpcMessage.USG_EditSign, async (event, args) => {
+  // ipcMain.on(usgIpcMessages.USG_EditSign, async (event, args) => {
   //   const { queryParams: { id, signInput } } = args;
   //   let response: IpcBodyInterface;
 

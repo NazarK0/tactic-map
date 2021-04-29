@@ -4,12 +4,13 @@ import DbConnect from './dbConnect'
 import usgController from './entities/usg/usg.controller';
 import dsgController from './entities/dsg/dsg.controller';
 import topToolbarController from './entities/topToolbar/topToolbar.controller';
+import initUploadFolders from './utils/initUploadFolders';
 
 let win: BrowserWindow | null;
 const db = new DbConnect(path.join(app.getPath("documents"),'tactic-map', 'database.sqlite'));
 
 db.testConnection();
-// db.syncModels();
+initUploadFolders()
 
 app.on('ready', createWindow)
 
@@ -40,6 +41,6 @@ function createWindow() {
 
 function ininializeControllers(db: DbConnect, win: BrowserWindow) {
   usgController(db.models, win);
-  dsgController(db.models, win);
+  dsgController(db.models, win, app);
   topToolbarController(win);
 }
