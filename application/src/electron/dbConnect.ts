@@ -43,6 +43,11 @@ export default class DbConnect {
     this.models.dsgSign = dsgSignModelsInit(this.seqelize);
     this.models.defaultSignGroup = dsgModelInit(this.seqelize);
     this.models.userSignGroup = usgModelInit(this.seqelize);
+
+    this.models.defaultSignGroup.hasMany(this.models.dsgSign, { onDelete: 'cascade', foreignKey: 'dsgFK' });
+    this.models.userSignGroup.hasMany(this.models.dsgSign, { onDelete: 'set null', foreignKey: 'usgFK' });
+    this.models.dsgSign.belongsTo(this.models.defaultSignGroup, { as: 'defaultSigns', foreignKey: 'dsgFK' });
+    this.models.dsgSign.belongsTo(this.models.userSignGroup, { as: 'userSigns', foreignKey: 'usgFK' });
   }
 
   private syncModels() {

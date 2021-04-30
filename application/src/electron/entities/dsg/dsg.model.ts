@@ -22,7 +22,6 @@ export default function dsgModelInit(sequelize: Sequelize): ModelDefined<DSG_Att
       defaultValue: ''
     },
   })
-  model.hasMany(sequelize.models.DsgSigns, { onDelete: 'cascade', foreignKey: 'dsgFK' });
-
+  
   return model;
 };

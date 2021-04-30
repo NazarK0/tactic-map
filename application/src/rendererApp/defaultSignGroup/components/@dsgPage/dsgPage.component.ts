@@ -44,6 +44,7 @@ export default class DSG_PageComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
     this.error$ = this.store.pipe(select(errorSelector));
     this.group$ = this.store.pipe(select(dsgSelector));
+    this.group$.subscribe(group => console.log(group, 'GROUP'))
   }
 
   initializeListeners(): void {

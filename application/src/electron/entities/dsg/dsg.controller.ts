@@ -62,7 +62,7 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      const dsg = await models.defaultSignGroup.findByPk(queryParams.id, { raw: true });
+      const dsg = (await models.defaultSignGroup.findByPk(queryParams.id, { include: 'DsgSigns' }));
       console.log(dsg, 'DSG GET BY ID CTR')
 
       response = {
@@ -180,19 +180,17 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
 
     const imgOriginalPath = sign.sign;
     const { base } = path.parse(imgOriginalPath);
-    const resultPath = path.join(app.getPath('documents'), 'tactic-map', appFolders.dsgSigns, base);
+    const newRelativePath = path.join('tactic-map', appFolders.dsgSigns, base);
+    const resultPath = path.join(app.getPath('documents'), newRelativePath);
 
     fs.copyFileSync(imgOriginalPath, resultPath);
 
     try {
       const newSign = await models.dsgSign.create({
-
           dsgFK: dsgId,
           ...sign,
-          sign: resultPath
-
+          sign: newRelativePath
       })
-      console.log('CREATE DSG SIGN CTR', newSign)
 
       response = {
         status: 'ok',

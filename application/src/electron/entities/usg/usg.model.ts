@@ -23,7 +23,5 @@ export default function usgModelInit(sequelize: Sequelize): ModelDefined<USG_Att
     },
   }) 
 
-  model.hasMany(sequelize.models.DsgSigns, { onDelete: 'set null', foreignKey: 'usgFK' });
-
   return model;
 };
