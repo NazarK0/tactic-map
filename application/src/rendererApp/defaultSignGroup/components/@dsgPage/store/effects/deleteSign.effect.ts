@@ -15,7 +15,7 @@ export default class DSG_DeleteSignEffect {
         return this.sharedDSG_Service
           .deleteSignById(signId)
           .pipe(
-            map((signList) => DSG_DeleteSignSuccessAction({ signList })),
+            map((signs) => DSG_DeleteSignSuccessAction({ signList: signs.map(s => ({ ...s, isSelected: false })) })),
             catchError((error) => of(DSG_DeleteSignFailureAction({ error })))
           );
       })

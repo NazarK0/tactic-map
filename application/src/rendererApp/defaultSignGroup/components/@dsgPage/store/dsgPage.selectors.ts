@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import DSG_WithSelectedSignsInterface from 'src/rendererApp/shared/types/dsgWithSelectedSigns.interface';
 
 import AppState from '../../../../app.state';
 import DSG_Interface from '../../../../shared/types/dsg.interface';
@@ -20,7 +21,7 @@ export const errorSelector: MemoizedSelector<AppState, ErrorInterface | null> = 
   (state: DSG_PageState) => state.error
 );
 
-export const dsgSelector: MemoizedSelector<AppState, DSG_Interface | null> = createSelector(
+export const dsgSelector: MemoizedSelector<AppState, DSG_WithSelectedSignsInterface | null> = createSelector(
   dsgPageFeatureSelector,
   (state: DSG_PageState) => state.data
 );

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { routerNavigationAction } from '@ngrx/router-store';
 import { Action,createReducer, on } from '@ngrx/store';
+import { sign } from 'node:crypto';
 
 import DSG_PageState from '../../../types/dsgPage.state';
 import { DSG_DeleteSignAction, DSG_DeleteSignFailureAction, DSG_DeleteSignSuccessAction } from './actions/deleteSign.action';
@@ -41,7 +42,7 @@ const reducer = createReducer(initialState,
   ),
   on(DSG_DeleteSignSuccessAction,
       (state: DSG_PageState, action): DSG_PageState => {
-        const data = state.data ? { ...state.data, signs: action.signList} : null;
+        const data = state.data ? { ...state.data, signs: action.signList } : null;
         return {
         ...state,
         isLoading: false,

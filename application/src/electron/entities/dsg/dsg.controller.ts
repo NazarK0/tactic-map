@@ -62,11 +62,16 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      const dsg = (await models.defaultSignGroup.findByPk(queryParams.id, { include: 'DsgSigns' }));
+      const dsg: any = (await models.defaultSignGroup.findByPk(queryParams.id, { include: 'DsgSigns' })).toJSON();
       console.log(dsg, 'DSG GET BY ID CTR')
 
       response = {
-        data: dsg,
+        data: dsg ? {
+          id: dsg.id,
+          title: dsg.title,
+          description: dsg.description,
+          signs: dsg.DsgSigns
+        } : null,
         status: 'ok'
       };
     } catch (error) {

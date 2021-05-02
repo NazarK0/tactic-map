@@ -13,7 +13,10 @@ export default class GetDSG_Effect {
     ofType(getDSG_Action),
     switchMap(({ id }) => {
       return this.sharedDSG_Service.getById(id).pipe(
-        map((dsg: DSG_Interface) => getDSG_SuccessAction({ dsg })),
+        map((group: DSG_Interface) => getDSG_SuccessAction({ dsg: { 
+          ...group,
+          signs: group.signs.map(s => ({...s, isSelected: false }))
+        } })),
         catchError((error) => of(getDSG_FailureAction({ error })))
       );
     })

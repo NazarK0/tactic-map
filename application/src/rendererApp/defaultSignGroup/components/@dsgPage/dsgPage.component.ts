@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { Observable, Subscription } from "rxjs";
 import { filter } from "rxjs/operators";
+import DSG_WithSelectedSignsInterface from "src/rendererApp/shared/types/dsgWithSelectedSigns.interface";
 
 import AppState from "../../../app.state";
 import UtilsService from "../../../shared/services/utils.service";
@@ -23,7 +24,7 @@ export default class DSG_PageComponent implements OnInit, OnDestroy {
   urlSubscription: Subscription = new Subscription();
   isLoading$!: Observable<boolean>;
   error$!: Observable<ErrorInterface | null>;
-  group$!: Observable<DSG_Interface | null>;
+  group$!: Observable<DSG_WithSelectedSignsInterface | null>;
   id!: number;
 
   constructor(

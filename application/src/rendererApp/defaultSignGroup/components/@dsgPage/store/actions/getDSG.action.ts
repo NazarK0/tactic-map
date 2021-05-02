@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import DSG_WithSelectedSignsInterface from 'src/rendererApp/shared/types/dsgWithSelectedSigns.interface';
 
 import DSG_Interface from '../../../../../shared/types/dsg.interface';
 import ErrorInterface from '../../../../../shared/types/error.interface';
@@ -11,7 +12,7 @@ export const getDSG_Action = createAction(
 
 export const getDSG_SuccessAction = createAction(
   DSG_PageWithItemsActionTypes.GET_DSG_SUCCESS,
-  props<{ dsg: DSG_Interface }>()
+  props<{ dsg: DSG_WithSelectedSignsInterface }>()
 );
 
 export const getDSG_FailureAction = createAction(

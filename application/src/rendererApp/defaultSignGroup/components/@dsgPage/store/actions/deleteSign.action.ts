@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import DSG_SignSelectedInterface from 'src/rendererApp/shared/types/dsgSignSelected.interface';
 
 import DSG_SignInterface from '../../../../../shared/types/dsgSign.interface';
 import ErrorInterface from '../../../../../shared/types/error.interface';
@@ -11,7 +12,7 @@ export const DSG_DeleteSignAction = createAction(
 
 export const DSG_DeleteSignSuccessAction = createAction(
   DSG_PageActionTypes.DELETE_SIGN_SUCCESS,
-  props<{ signList: DSG_SignInterface[] }>()
+  props<{ signList: DSG_SignSelectedInterface[] }>()
 );
 
 export const DSG_DeleteSignFailureAction = createAction(
