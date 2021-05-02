@@ -3,6 +3,6 @@ export default interface DSG_SignAttributes {
   sign: string;
   title: string;
   description: string;
-  // dsgFK: number;
-  // usgFK: number | null;
+  dsgFK: number;
+  usgFK: number | null;
 }

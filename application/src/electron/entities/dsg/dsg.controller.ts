@@ -6,6 +6,7 @@ import * as path from 'path';
 import ModelsInterface from "types/models.interface";
 
 import dsgIpcMessages from "./dsg.ipcMessages";
+import DSG_SignAttributes from "types/dsgSign.attributes";
 
 export default function dsgController(models: ModelsInterface, window: BrowserWindow, app: App): void {
   // if (!sequelize) {
@@ -132,8 +133,9 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      await models.dsgSign.destroy({ where: { id: queryParams.id } })
-      const updatedList = await models.dsgSign.findAll();
+      const groupId: any = (await models.dsgSign.findByPk(queryParams.id)).toJSON();
+      await models.dsgSign.destroy({ where: { id: queryParams.id } });
+      const updatedList = await models.dsgSign.findAll({ where: { dsgFK: groupId.dsgFK }, raw: true });
       console.log('DSG DELETE SIGN CTR')
       console.table(updatedList);
 
@@ -216,7 +218,7 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      const sign = await models.dsgSign.findByPk(id);
+      const sign = (await models.dsgSign.findByPk(id)).toJSON();
       console.log('GET DSG SIGN CTR', sign)
 
       response = {
