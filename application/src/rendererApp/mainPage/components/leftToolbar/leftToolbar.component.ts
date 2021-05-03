@@ -49,6 +49,7 @@ export default class LeftToolbarComponent implements OnInit {
   }
 
   onSelectSign(selected: SelectedMilSignInterface): void {
+    console.log(selected, 'LT COMPONENT SELECTED')
     this.store.dispatch(updateSelectedUSG_Action({ selected }));
     this.store.dispatch(getSelectedSignAction());
   }

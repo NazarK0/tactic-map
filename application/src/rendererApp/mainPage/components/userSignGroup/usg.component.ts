@@ -36,6 +36,7 @@ export default class USG_Component implements OnInit, OnChanges {
   }
 
   onSelectSign(event: any): void {
+    console.log(event, 'USG COMP')
     const usgId = Number(event.source.name);
     const signId = Number(event.source.id);
     const value: string = event.value;

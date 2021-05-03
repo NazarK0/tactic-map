@@ -1,7 +1,7 @@
 <div class="">
   <div class="stripe" *ngIf="showSigns">
     <mat-button-toggle-group
-      [name]="'usgProps.id'"
+      [name]="usgProps.id.toString()"
       [style.top]="offsetTop"
       [value]="usgProps.selectedSign?.value"
       class="sign-group"
@@ -12,7 +12,7 @@
         [value]="item.sign"
         class="stripe-btn"
         [aria-label]="item.title"
-        [id]="'item.id'"
+        [id]="item.id.toString()"
         [title]="item.description"
       >
         <img [src]="item.sign" />
