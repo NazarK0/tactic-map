@@ -12,7 +12,7 @@
 </a>
 <div class="container">
   <div class="sign-preview-block">
-    <img [src]="signUrl" class="sign-preview" *ngIf="signUrl" />
+    <img [src]="'file://'+ signUrl" class="sign-preview" *ngIf="signUrl" />
     <div class="sign-preview-controls" *ngIf="isAdding">
       <button
         mat-icon-button

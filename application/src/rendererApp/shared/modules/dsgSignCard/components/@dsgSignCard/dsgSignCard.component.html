@@ -1,6 +1,6 @@
 <div class="sign-card__container">
   <mat-card class="sign-card" [title]="signProps.description">
-    <img mat-card-image [src]="signProps.sign" class="sign-card__img" />
+    <img mat-card-image [src]="'file://'+ signProps.sign" class="sign-card__img" />
     <mat-card-content class="sign-card__desc">
       <p>
         {{ signProps.title }}

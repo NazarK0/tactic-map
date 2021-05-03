@@ -71,7 +71,7 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
           id: dsg.id,
           title: dsg.title,
           description: dsg.description,
-          signs: dsg.DsgSigns
+          signs: dsg.DsgSigns.map(s => ({...s, sign: path.join(app.getPath('documents'), s.sign )}))
         } : null,
         status: 'ok'
       };
@@ -218,12 +218,12 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      const sign = (await models.dsgSign.findByPk(id)).toJSON();
+      const sign: any = (await models.dsgSign.findByPk(id)).toJSON();
       console.log('GET DSG SIGN CTR', sign)
 
       response = {
         status: 'ok',
-        data: sign
+        data: {...sign, sign: path.join(app.getPath('documents'), sign.sign )}
       };
     } catch (error) {
       response = {

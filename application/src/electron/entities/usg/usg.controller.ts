@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import { BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
+import * as path from 'path';
 
 import IpcBodyInterface from "../../types/ipcBody.interface";
 import VMenuItemInterface from '../../types/vmenuItem.interface';
@@ -7,6 +8,7 @@ import USG_Attributes from '../../types/usg.attributes';
 import DSG_SignAttributes from "types/dsgSign.attributes";
 import ModelsInterface from "types/models.interface";
 import usgIpcMessages from "./usg.ipcMessages";
+import appFolders from "constants/appResourceFolders";
 
 export default function usgController(models: ModelsInterface, window: BrowserWindow): void {
   ipcMain.on(usgIpcMessages.USG_Create, async (event, args) => {
@@ -66,7 +68,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
           id: usg.id,
           title: usg.title,
           description: usg.description,
-          signs: usg.DsgSigns
+          signs: usg.DsgSigns.map(s => ({...s, sign: path.join(app.getPath('documents'), s.sign )}))
         },
         status: 'ok'
       };
@@ -117,7 +119,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
           id: group.id,
           title: group.title,
           description: group.description,
-          signs: group.DsgSigns
+          signs: group.DsgSigns.map(s => ({...s, sign: path.join(app.getPath('documents'), s.sign )}))
         })),
         status: 'ok'
       };
