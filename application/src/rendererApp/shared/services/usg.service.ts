@@ -55,7 +55,7 @@ export default class USG_Service {
 
   getAll(): Observable<USG_Interface[]> {
     const response: IpcBodyInterface = this.ipc.sendSync(usgIpcMessages.USG_GetList);
-    console.log('list service')
+    console.log('list service', response.data)
 
     if (response.status === 'ok') {
       return of(response.data);

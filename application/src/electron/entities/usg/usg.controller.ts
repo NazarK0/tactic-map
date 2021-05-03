@@ -60,12 +60,6 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     try {
       const usg: any = (await models.userSignGroup.findByPk(queryParams.id, { include: 'DsgSigns' })).toJSON();
       console.log('GET USG CTR', usg)
-      console.log('GET USG testt CTR', {
-        id: usg.id,
-        title: usg.title,
-        description: usg.description,
-        signs: usg.DsgSigns
-      })
 
       response = {
         data: {
@@ -111,15 +105,20 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     let response: IpcBodyInterface;
 
     try {
-      const list: USG_Attributes[] = [];
+      // const list: USG_Attributes[] = [];
       // console.log(sequelize.models, 'MODELS')
       // const list: USG_Attributes[] = (await UserSignGroup.findAll({ raw: true })) as unknown as USG_Attributes[];
-      const test = await models.userSignGroup.findAll({ raw: true });
-      console.log(test, 'test');
+      const rawList: any = await models.userSignGroup.findAll({ include: 'DsgSigns' });
+      const list: any = JSON.parse(JSON.stringify(rawList))
       console.log('USG LIST CTR', list)
 
       response = {
-        data: list,
+        data: list.map((group) => ({
+          id: group.id,
+          title: group.title,
+          description: group.description,
+          signs: group.DsgSigns
+        })),
         status: 'ok'
       };
     } catch (error) {
@@ -158,23 +157,20 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     let response: IpcBodyInterface;
 
     try {
-      const deleted = null
-      // const deleted = await DsgSign.update({
-      //   usgFK: null,
-      // }, {
-      //   where: {
-      //     id: queryParams.id
-      //   }
-      // });
+      const removing: any = await models.dsgSign.findByPk(queryParams.id, { raw: true });
+      await models.dsgSign.update({
+        usgFK: null,
+      }, {
+        where: {
+          id: queryParams.id
+        }
+      });
   
+      
       const updatedList = (await models.dsgSign.findAll({
-        // where: { usgFK: deleted.usgFK },
-        // include: { sequelize.models.User: true, dsg: true }
-      })) as unknown as DSG_SignAttributes[];
-
-
-
-      // const updatedList = await usgDeleteSignById(Number(queryParams.id));
+        where: { usgFK: removing.usgFK },
+        raw: true,
+      }));
 
       response = {
         status: 'ok',
