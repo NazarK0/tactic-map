@@ -19,13 +19,15 @@ export default class GetDSG_Effect {
       ])
         .pipe(
           map(([dsg, usg]) => {
-            const usgSignIds = usg.signs.map((sign) => sign.id);
+            console.log(dsg, 'DSG ++')
+            console.log(usg, 'USG ++')
+            const usgSignIds = usg.signs?.map((sign) => sign.id);
             const signsWithSelection: DSG_SignSelectedInterface[] = dsg.signs
               .filter((sign) => sign.usgFK === usgId || sign.usgFK === null)
               .map((sign) => {
                 return {
                   ...sign,
-                  isSelected: usgSignIds.includes(sign.id)
+                  isSelected: usgSignIds?.includes(sign.id) || false
                 };
               });
             // dsg.signs = signsWithSelection;

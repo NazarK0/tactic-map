@@ -58,11 +58,22 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     let response: IpcBodyInterface;
 
     try {
-      const usg: USG_Attributes = (await models.userSignGroup.findByPk(queryParams.id, { raw: true })) as unknown as USG_Attributes;
+      const usg: any = (await models.userSignGroup.findByPk(queryParams.id, { include: 'DsgSigns' })).toJSON();
       console.log('GET USG CTR', usg)
+      console.log('GET USG testt CTR', {
+        id: usg.id,
+        title: usg.title,
+        description: usg.description,
+        signs: usg.DsgSigns
+      })
 
       response = {
-        data: usg,
+        data: {
+          id: usg.id,
+          title: usg.title,
+          description: usg.description,
+          signs: usg.DsgSigns
+        },
         status: 'ok'
       };
     } catch (error) {
@@ -184,25 +195,31 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     let response: IpcBodyInterface;
 
     try {
-      const sign = await models.dsgSign.findByPk(id,
-        // {include: { usg: true }}
+      const sign: any = await models.dsgSign.findByPk(id,
+        { raw: true }
       );
+
+      console.log('TOGGLE SIGN CTR', sign);
   
-      let updatedSign: DSG_SignAttributes = null;
-  
-      // if (!sign.usgFK) {
-      //   updatedSign = (await sequelize.models.DsgSign.update({ usgFK: usgId }, {
-      //     where: { id }
-      //   })) as unknown as DSG_SignAttributes;
-      // } else if (sign.usgFK && sign.usgFK === usgId) {
-      //   updatedSign = (await sequelize.models.DsgSign.update({ usgFK: null }, {
-      //     where: { id }
-      //   })) as unknown as DSG_SignAttributes;
-      // }
+      if (!sign.usgFK) {
+        await models.dsgSign.update({ usgFK: usgId }, {
+          where: { id }
+        });
+      } else if (sign.usgFK && sign.usgFK === usgId) {
+        await models.dsgSign.update({ usgFK: null }, {
+          where: { id }
+        });
+      }
+
+      const updatedSign: any = await models.dsgSign.findByPk(id,
+        { raw: true }
+      );
+
+      console.log('TOGGLE SIGN UPDATED CTR', sign);
 
       response = {
         status: 'ok',
-        data: updatedSign || sign,
+        data: updatedSign,
       };
     } catch (error) {
       response = {

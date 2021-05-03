@@ -46,8 +46,8 @@ export default class DbConnect {
 
     this.models.defaultSignGroup.hasMany(this.models.dsgSign, { onDelete: 'cascade', foreignKey: 'dsgFK' });
     this.models.userSignGroup.hasMany(this.models.dsgSign, { onDelete: 'set null', foreignKey: 'usgFK' });
-    this.models.dsgSign.belongsTo(this.models.defaultSignGroup, { as: 'defaultSigns', foreignKey: 'dsgFK' });
-    this.models.dsgSign.belongsTo(this.models.userSignGroup, { as: 'userSigns', foreignKey: 'usgFK' });
+    this.models.dsgSign.belongsTo(this.models.defaultSignGroup, { as: 'defaultGroup', foreignKey: 'dsgFK' });
+    this.models.dsgSign.belongsTo(this.models.userSignGroup, { as: 'userGroup', foreignKey: 'usgFK' });
   }
 
   private syncModels() {
