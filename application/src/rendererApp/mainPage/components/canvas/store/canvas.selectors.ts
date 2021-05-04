@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import MapInterface from 'src/rendererApp/mainPage/types/map.interface';
 
 import AppState from '../../../../app.state';
 import ErrorInterface from '../../../../shared/types/error.interface';
@@ -25,7 +26,7 @@ export const selectedSignSelector: MemoizedSelector<AppState, SelectedMilSignInt
   (state: CanvasState) => state.selectedMilSign
 );
 
-export const mapUrlSelector: MemoizedSelector<AppState, string | null> = createSelector(
+export const mapSelector: MemoizedSelector<AppState, MapInterface | null> = createSelector(
   CanvasFeatureSelector,
-  (state: CanvasState) => state.mapUrl
+  (state: CanvasState) => state.map
 );

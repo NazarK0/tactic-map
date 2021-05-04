@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { BrowserWindow, dialog, ipcMain } from "electron";
+import imageSize from 'image-size';
 
 import IpcBodyInterface from "../../types/ipcBody.interface";
 import topToolbarIpcMessages from "./topToolbar.ipcMessages";
@@ -17,11 +18,19 @@ export default function topToolbarController(window: BrowserWindow): void {
       });
     
       const mapUrl = file.canceled ? null : file.filePaths[0];
-      // const mapUrl = await uploadMap(window);
+      let data = null;
+      if (mapUrl) {
+        const dimensions = imageSize(mapUrl);
+        data = {
+          url: mapUrl,
+          width: dimensions.width,
+          height: dimensions.height
+        }
+      }
 
       response = {
         status: 'ok',
-        data: mapUrl,
+        data,
       };
     } catch (error) {
       response = {

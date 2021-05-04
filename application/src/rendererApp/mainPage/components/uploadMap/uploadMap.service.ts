@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { IpcRenderer } from 'electron';
 import { Observable, of } from 'rxjs';
+import imageSize from 'image-size';
 
 import LocalStorageService from '../../../shared/services/localStorage.service';
 import IpcBodyInterface from '../../../shared/types/ipcBody.interface';
+import MapInterface from '../../types/map.interface';
 import topToolbarIpcMessages from '../../types/topToolbar.ipcMessages';
 
 @Injectable()
@@ -27,15 +29,16 @@ export default class UploadMapService {
   uploadMap(): Observable<{}> {
     const response: IpcBodyInterface = this.ipc.sendSync(topToolbarIpcMessages.uploadMap);
     if (response.status === 'ok') {
-      this.localStorage.set('mapUrl', response.data);
+      this.localStorage.set('map', response.data);
       return of({});
     } else {
       throw new Error(response.data);
     }
   }
 
-  getMap(): Observable<string> {
-    const mapUrl = this.localStorage.get('mapUrl');
-    return of(mapUrl);
+  getMap(): Observable<MapInterface> {
+    const map = this.localStorage.get('map');
+    
+    return of(map);
   }
 }

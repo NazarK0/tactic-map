@@ -14,7 +14,7 @@ export default class GetMapEffect {
       switchMap(() => {
         return this.uploadMapService.getMap()
           .pipe(
-            map((mapUrl) => getMapSuccessAction({ mapUrl })),
+            map((map) => getMapSuccessAction({ map })),
             catchError((error) => of(getMapFailureAction({ error })))
           );
       })

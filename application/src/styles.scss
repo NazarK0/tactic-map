@@ -1,4 +1,133 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  height: 100vh;
+  font-size: 17px;
+  background-color: #fafafa;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+    li {
+      list-style-type: none;
+    }
+  }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: rgb(197, 61, 19); }
+  * {
+    user-select: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+//   p {
+//     margin: 0;
+//   }
+
+//   .hide {
+//     display: none !important;
+//   }
+
+//   .menu {
+//     display: flex;
+//     flex-wrap: nowrap;
+//     justify-content: space-between;
+//     align-items: center;
+//     height: 100%;
+//     &.horizontal {
+//       flex-direction: row;
+//        &-item {
+//         text-align: center;
+//       }
+//     }
+//     &.vertical {
+//       flex-direction: column;
+//       align-items: stretch;
+//       header, main {
+//         display: flex;
+//       }
+//       header {
+//         flex-direction: row;
+//         justify-content: space-between;
+//         height: fit-content;
+//         border-bottom: 1px solid black;
+//       }
+//       main {
+//         flex-direction: column;
+//         align-items: flex-start;
+//         justify-content: flex-start;
+//         height: 100%;
+//         overflow-x: hidden;
+//         overflow-y: auto;
+//         & > ul {
+//           width: 100%;
+//         }
+//       }
+//     }
+//     &-item {
+//       display: block;
+//       margin: 5px;
+//       &__link i {
+//         font-size: 1.9rem;
+//       }
+//       &__caption {
+//         font-size: .77rem;
+//         font-weight: bold;
+//       }
+//       &.active {
+//         background-color: rgb(161, 241, 161);
+//       }
+//     }
+//   }
+  
+}
+.container {
+  width: 700px;
+  margin: 0 auto;
+}
+
+button {
+  max-width: 300px;
+}
+
+.form-title {
+  text-align: center;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+        local('MaterialIcons-Regular'),
+        url(./assets/icons/material/font/MaterialIcons-Regular.ttf) format('truetype');
+        // url(iconfont/MaterialIcons-Regular.woff) format('woff'),
+        // url(iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+}

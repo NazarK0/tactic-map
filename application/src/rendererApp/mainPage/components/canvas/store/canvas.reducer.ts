@@ -10,7 +10,7 @@ const initialState: CanvasState = {
   isLoading: false,
   error: null,
   selectedMilSign: null,
-  mapUrl: null,
+  map: null,
 };
 
 const reducer = createReducer(initialState,
@@ -24,7 +24,7 @@ const reducer = createReducer(initialState,
       (state, action): CanvasState => ({
         ...state,
         isLoading: false,
-        mapUrl: action.mapUrl
+        map: action.map
       })
   ),
   on(getMapFailureAction,
@@ -44,7 +44,7 @@ const reducer = createReducer(initialState,
       (state, action): CanvasState => ({
         ...state,
         isLoading: false,
-        mapUrl: action.mapUrl
+        map: action.map
       })
   ),
   on(getMapFailureAction,

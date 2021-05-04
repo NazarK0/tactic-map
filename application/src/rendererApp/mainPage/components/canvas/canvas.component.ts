@@ -5,9 +5,10 @@ import { Observable, Subscription } from "rxjs";
 
 import AppState from "../../../app.state";
 import ErrorInterface from "../../../shared/types/error.interface";
+import MapInterface from "../../types/map.interface";
 import SelectedMilSignInterface from "../../types/selectedMilSign.interface";
 import { getMapAction } from "./store/actions/getMap.action";
-import { errorSelector, isLoadingSelector, mapUrlSelector, selectedSignSelector } from "./store/canvas.selectors";
+import { errorSelector, isLoadingSelector, mapSelector, selectedSignSelector } from "./store/canvas.selectors";
 
 @Component({
   selector: 'tm-canvas',
@@ -24,7 +25,7 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
   isSubmitting$!: Observable<boolean>;
   error$!: Observable<ErrorInterface | null>;
 
-  mapUrl!: string | null;
+  map!: MapInterface | null;
   milSign!: SelectedMilSignInterface | null;
 
   @ViewChild("innerCanvas") canvasDOM!: ElementRef;
@@ -45,8 +46,11 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
 
   initializeListeners(): void {
     this.mapUrlSubscription.add(
-      this.store.pipe(select(mapUrlSelector))
-        .subscribe((url) => this.mapUrl = url)
+      this.store.pipe(select(mapSelector))
+        .subscribe((map) => {
+          this.map = map;        
+          this.updateMap();
+        })
     );
 
     this.selectedSignSubscription.add(
@@ -56,13 +60,33 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   initializePixi(): void {
-    this.app = new Pixi.Application({});
     this.ngZone.runOutsideAngular(() => {
-      this.canvasDOM.nativeElement.appendChild(this.app.view);
+      this.app = new Pixi.Application();
     });
 
-    const mapTexture = Pixi.Texture.from(this.mapUrl || '');
+    this.app.renderer.backgroundColor = 0xffffff;
+    this.canvasDOM.nativeElement.appendChild(this.app.view);
+  }
+
+  updateMap(): void {
+    if (!this.app || !this.map) return;
+
+    const mapTexture = Pixi.Texture.from(this.map.url);
     const map = new Pixi.Sprite(mapTexture);
+
+const base: any = { ...mapTexture.baseTexture.resource };
+Object
+    console.log(base.source.width, 'TEXTURE');
+    console.log(base, 'TEXTURE');
+    console.log(mapTexture.baseTexture.resource.height, 'TEXTURE');
+    console.log(map, 'MAP');
+
+    const imgWidth = 1920;
+    const imgHeight = 1200;
+    
+    this.app.renderer.resize(this.map.width, this.map.height)
+    // this.canvasDOM.nativeElement.style.width = `${imgWidth}px`;
+    // this.canvasDOM.nativeElement.style.height = `${imgHeight}px`;
 
     map.anchor.x = 0;
     map.anchor.y = 0;
@@ -71,7 +95,6 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
     map.position.y = 0;
     
     this.app.stage.addChild(map);
-    // console.log(this.mapUrl, 'URL')
   }
 
   ngOnInit(): void {
@@ -82,6 +105,7 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngAfterViewInit(): void {
     this.initializePixi();
+    this.updateMap();
   }
 
   ngOnDestroy(): void {
