@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.interface';
 
 import SelectedMilSignInterface from '../../mainPage/types/selectedMilSign.interface';
 import USG_WithStateInterface from '../../mainPage/types/usgWithState.interface';
@@ -26,12 +27,12 @@ export default class SessionStorageService {
    
   }
 
-  getSelectedUSG(): Observable<SelectedMilSignInterface> {
-    return of(this.get('selUSG'));
+  getSelectedTool(): Observable<SelectedToolInterface> {
+    return of(this.get('tool'));
   }
 
-  setSelectedUSG(data: SelectedMilSignInterface): Observable<SelectedMilSignInterface> {
-    this.set('selUSG', data);
+  setSelectedTool(data: SelectedToolInterface): Observable<SelectedToolInterface> {
+    this.set('tool', data);
     return of(data);
   }
 }

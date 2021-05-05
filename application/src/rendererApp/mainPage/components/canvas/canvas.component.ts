@@ -10,7 +10,7 @@ import PixiKey from "../../types/pixiKey.interface";
 import PixiKeyEvents from "../../types/pixiKeyEvents.interface";
 import SelectedMilSignInterface from "../../types/selectedMilSign.interface";
 import { getMapAction } from "./store/actions/getMap.action";
-import { errorSelector, isLoadingSelector, mapSelector, selectedSignSelector } from "./store/canvas.selectors";
+import { errorSelector, isLoadingSelector, mapSelector, selectedToolSelector } from "./store/canvas.selectors";
 
 @Component({
   selector: 'tm-canvas',

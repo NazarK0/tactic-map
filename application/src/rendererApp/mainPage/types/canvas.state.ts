@@ -1,10 +1,10 @@
 import ErrorInterface from '../../shared/types/error.interface';
 import MapInterface from './map.interface';
-import SelectedMilSignInterface from './selectedMilSign.interface';
+import SelectedToolInterface from './selectedTool.interface';
 
 export default interface CanvasState {
   isLoading: boolean;
   error: ErrorInterface | null;
-  selectedMilSign: SelectedMilSignInterface | null;
+  selectedTool: SelectedToolInterface | null;
   map: MapInterface | null;
 }

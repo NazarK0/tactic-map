@@ -7,8 +7,9 @@ import AppState from "../../../app.state";
 import ErrorInterface from "../../../shared/types/error.interface";
 import USG_Interface from "../../../shared/types/usg.interface";
 import SelectedMilSignInterface from '../../types/selectedMilSign.interface';
+import SelectedToolInterface from "../../types/selectedTool.interface";
 import USG_WithStateInterface from "../../types/usgWithState.interface";
-import { getSelectedSignAction } from "../canvas/store/actions/getSelectedSign.action";
+import { getSelectedToolAction } from "../canvas/store/actions/getSelectedTool.action";
 import { getUSG_ListAction } from "./store/actions/getUSG_List.action";
 import { updateSelectedUSG_Action } from './store/actions/updateSelectedUSG.action';
 import { errorSelector, isLoadingSelector, usgListSelector } from "./store/leftToolbar.selectors";
@@ -48,9 +49,8 @@ export default class LeftToolbarComponent implements OnInit {
     this.scrollTop = event.target.scrollTop;
   }
 
-  onSelectSign(selected: SelectedMilSignInterface): void {
-    console.log(selected, 'LT COMPONENT SELECTED')
-    this.store.dispatch(updateSelectedUSG_Action({ selected }));
-    this.store.dispatch(getSelectedSignAction());
+  onSelectSign(selected: SelectedToolInterface): void {
+    this.store.dispatch(updateSelectedUSG_Action({ selected: selected.tool }));
+    this.store.dispatch(getSelectedToolAction());
   }
 }

@@ -4,12 +4,12 @@ import { Action,createReducer, on } from '@ngrx/store';
 
 import CanvasState from '../../../types/canvas.state';
 import { getMapAction, getMapFailureAction,getMapSuccessAction } from './actions/getMap.action';
-import { getSelectedSignAction, getSelectedSignSuccessAction, getSelectedSignFailureAction } from './actions/getSelectedSign.action';
+import { getSelectedToolAction, getSelectedToolSuccessAction, getSelectedToolFailureAction } from './actions/getSelectedTool.action';
 
 const initialState: CanvasState = {
   isLoading: false,
   error: null,
-  selectedMilSign: null,
+  selectedTool: null,
   map: null,
 };
 
@@ -54,20 +54,20 @@ const reducer = createReducer(initialState,
         error: action.error
       })
   ),
-  on(getSelectedSignAction,
+  on(getSelectedToolAction,
       (state): CanvasState => ({
         ...state,
         isLoading: true,
       })
   ),
-  on(getSelectedSignSuccessAction,
+  on(getSelectedToolSuccessAction,
       (state, action): CanvasState => ({
         ...state,
         isLoading: false,
-        selectedMilSign: action.selectedSign
+        selectedTool: action.selectedTool
       })
   ),
-  on(getSelectedSignFailureAction,
+  on(getSelectedToolFailureAction,
       (state, action): CanvasState => ({
         ...state,
         isLoading: false,
