@@ -15,7 +15,7 @@
         [id]="item.id.toString()"
         [title]="item.description"
       >
-        <img [src]="'file://'+ item.sign" />
+        <img [src]="'file://'+ item.sign" class="stripe-img" />
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>
@@ -28,7 +28,7 @@
     (click)="onToggle()"
     [title]="usgProps.title"
   >
-    <img *ngIf="usgProps.isSelected" [src]="'file://'+ usgProps.selectedSign?.value">
+    <img *ngIf="usgProps.isSelected" [src]="'file://'+ usgProps.selectedSign?.value" class="toggle-img">
     <div *ngIf="!usgProps.isSelected" class="group-circle"></div>
   </button>
 </div>

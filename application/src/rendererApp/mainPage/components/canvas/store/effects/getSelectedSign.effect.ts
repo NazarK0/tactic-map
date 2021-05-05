@@ -14,9 +14,9 @@ export default class GetSelectedSignEffect {
     .pipe(
       ofType(getSelectedSignAction),
       switchMap(() => {
-        return this.sessionStorage.getSelectedUSG()
+        return this.sessionStorage.getSelectedTool()
           .pipe(
-            map((selectedSign) => getSelectedSignSuccessAction({ selectedSign })),
+            map((selectedTool) => getSelectedSignSuccessAction({ selectedTool })),
             catchError((error) => of(getSelectedSignFailureAction({ error })))
           );
       })

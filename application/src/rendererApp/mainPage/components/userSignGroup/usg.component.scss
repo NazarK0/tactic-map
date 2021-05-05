@@ -1,7 +1,8 @@
 :host {
   display: block;
   z-index: 10;
-  .toggle-btn {
+  .toggle {
+    &-btn {
     width: 50px;
     min-width: 50px;
     height: 50px;
@@ -15,9 +16,21 @@
       background-color: rgb(177, 16, 16);
     }
   }
+  &-img {
+    width: 40px;
+    height: 45px;
+    position: relative;
+    left: -13px;
+  }
+   
+  }
   .stripe {
     position: absolute;
     left: 70px;
+    &-img {
+      width: 50px;
+      height: 50px;
+    }
   }
   .sign-group {
     position: relative;
@@ -32,5 +45,9 @@
     background-color: rgb(50, 221, 59);
     border: 2px solid rgb(255, 255, 255);
     box-shadow: 0 0 5px rgba(0, 0, 0, .8);
+  }
+
+  .mat-button-wrapper {
+    width: 45px;
   }
 }

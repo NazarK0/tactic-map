@@ -217,7 +217,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
 
       response = {
         status: 'ok',
-        data: updatedSign,
+        data: { ...updatedSign, sign: path.join(app.getPath('documents'), updatedSign.sign) },
       };
     } catch (error) {
       response = {

@@ -19,8 +19,6 @@ export default class GetDSG_Effect {
       ])
         .pipe(
           map(([dsg, usg]) => {
-            console.log(dsg, 'DSG ++')
-            console.log(usg, 'USG ++')
             const usgSignIds = usg.signs?.map((sign) => sign.id);
             const signsWithSelection: DSG_SignSelectedInterface[] = dsg.signs
               .filter((sign) => sign.usgFK === usgId || sign.usgFK === null)
