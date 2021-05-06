@@ -49,8 +49,8 @@ export default class LeftToolbarComponent implements OnInit {
     this.scrollTop = event.target.scrollTop;
   }
 
-  onSelectSign(selected: SelectedToolInterface): void {
-    this.store.dispatch(updateSelectedUSG_Action({ selected: selected.tool }));
+  onSelectSign(selected: SelectedMilSignInterface): void {
+    this.store.dispatch(updateSelectedUSG_Action({ selected }));
     this.store.dispatch(getSelectedToolAction());
   }
 }

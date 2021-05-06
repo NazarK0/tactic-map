@@ -9,8 +9,8 @@ import { getMapAction, getMapFailureAction,getMapSuccessAction } from '../action
 import { getSelectedToolAction, getSelectedToolSuccessAction, getSelectedToolFailureAction } from '../actions/getSelectedTool.action';
 
 @Injectable()
-export default class GetSelectedSignEffect {
-  getSelectedSign$ = createEffect(() => this.actions$
+export default class GetSelectedToolEffect {
+  getSelectedTool$ = createEffect(() => this.actions$
     .pipe(
       ofType(getSelectedToolAction),
       switchMap(() => {

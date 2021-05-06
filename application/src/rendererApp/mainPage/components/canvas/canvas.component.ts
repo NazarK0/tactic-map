@@ -9,7 +9,10 @@ import MapInterface from "../../types/map.interface";
 import PixiKey from "../../types/pixiKey.interface";
 import PixiKeyEvents from "../../types/pixiKeyEvents.interface";
 import SelectedMilSignInterface from "../../types/selectedMilSign.interface";
+import SelectedToolInterface from "../../types/selectedTool.interface";
+import SelectedToolTypes from "../../types/selectedToolTypes.enum";
 import { getMapAction } from "./store/actions/getMap.action";
+import { getSelectedToolAction } from "./store/actions/getSelectedTool.action";
 import { errorSelector, isLoadingSelector, mapSelector, selectedToolSelector } from "./store/canvas.selectors";
 
 @Component({
@@ -21,14 +24,14 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
   public app!: Pixi.Application;
 
   mapUrlSubscription: Subscription = new Subscription();
-  selectedSignSubscription: Subscription = new Subscription();
+  selectedToolSubscription: Subscription = new Subscription();
 
   isLoading$!: Observable<boolean>;
   isSubmitting$!: Observable<boolean>;
   error$!: Observable<ErrorInterface | null>;
 
   map!: MapInterface | null;
-  milSign!: SelectedMilSignInterface | null;
+  tool!: SelectedToolInterface | null;
   pixiKeyEvents!: PixiKeyEvents;
   layers: Pixi.Container = new Pixi.Container(); //all signs and shapes
 
@@ -58,9 +61,12 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
         })
     );
 
-    this.selectedSignSubscription.add(
-      this.store.pipe(select(selectedSignSelector))
-        .subscribe((sign) => this.milSign = sign)
+    this.selectedToolSubscription.add(
+      this.store.pipe(select(selectedToolSelector))
+        .subscribe((tool) => {
+          this.tool = tool;
+          console.log(tool, 'TOOL SUBSCR')
+        })
     );
   }
 
@@ -134,20 +140,21 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
     console.log(event.data.global.y, 'click')
     const {data: {global: {x: posX, y: posY }}} = event;
 
-    console.log('MIL SIGN', this.milSign)
-    if (this.milSign) {
-      console.log('MIL SIGN', this.milSign)
-      const texture = Pixi.Texture.from(this.milSign!.value);
-      const sprite = new Pixi.Sprite(texture);
-      this.initializePixiPointerEvents(sprite);
-
-      sprite.anchor.x = 0;
-      sprite.anchor.y = 0;
-
-      sprite.position.x = posX;
-      sprite.position.y = posY;
-      
-      this.layers.addChild(sprite);
+    console.log('SELECTED TOOL', this.tool)
+    if (this.tool) {
+      if (this.tool.type === SelectedToolTypes.MilSign) {
+        const texture = Pixi.Texture.from(this.tool.tool.value);
+        const sprite = new Pixi.Sprite(texture);
+        this.initializePixiPointerEvents(sprite);
+  
+        sprite.anchor.x = 0;
+        sprite.anchor.y = 0;
+  
+        sprite.position.x = posX;
+        sprite.position.y = posY;
+        
+        this.layers.addChild(sprite);
+      }
     }
   }
 
@@ -286,7 +293,7 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
 
   ngOnDestroy(): void {
     this.mapUrlSubscription.unsubscribe();
-    this.selectedSignSubscription.unsubscribe();
+    this.selectedToolSubscription.unsubscribe();
     this.unsubscribePixiKeyHandlers()
   }
 }

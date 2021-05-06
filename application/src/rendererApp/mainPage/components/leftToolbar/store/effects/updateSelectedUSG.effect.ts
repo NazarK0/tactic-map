@@ -18,7 +18,7 @@ export default class UpdateSelectedUSG_Effect {
     ofType(updateSelectedUSG_Action),
     switchMap(({ selected }) => {
       console.log(selected, 'SELECTED LT UPDATE SELECTED')
-      return combineLatest([this.sharedUSG_Service.getAll(), this.sessionStorage.setSelectedUSG(selected)]).pipe(
+      return combineLatest([this.sharedUSG_Service.getAll(), this.sessionStorage.setSelectedMilSign(selected)]).pipe(
         map(([usgList, selected]) => {
           const usgListWithState: USG_WithStateInterface[] = usgList.map((usg) => ({
             ...usg,

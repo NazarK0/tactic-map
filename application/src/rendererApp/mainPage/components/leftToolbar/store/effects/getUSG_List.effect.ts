@@ -15,7 +15,7 @@ export default class GetUSG_ListEffect {
   getUSG_List$ = createEffect(() => this.actions$.pipe(
     ofType(getUSG_ListAction),
     switchMap(() => {
-      return combineLatest([this.sharedUSG_Service.getAll(), this.sessionStorage.getSelectedUSG()]).pipe(
+      return combineLatest([this.sharedUSG_Service.getAll(), this.sessionStorage.getSelectedMilSign()]).pipe(
         map(([usgList, selected]) => {
           const usgListWithState: USG_WithStateInterface[] = usgList.map((usg) => {
 

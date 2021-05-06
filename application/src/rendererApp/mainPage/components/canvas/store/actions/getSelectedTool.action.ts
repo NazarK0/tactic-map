@@ -11,7 +11,7 @@ export const getSelectedToolAction = createAction(
 
 export const getSelectedToolSuccessAction = createAction(
   CanvasActionTypes.GET_SELECTED_TOOL_SUCCESS,
-  props<{ selectedTool: SelectedToolInterface }>()
+  props<{ selectedTool: SelectedToolInterface | null }>()
 );
 
 export const getSelectedToolFailureAction = createAction(

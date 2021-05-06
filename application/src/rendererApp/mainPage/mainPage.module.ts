@@ -20,7 +20,7 @@ import MainPageComponent from './components/@mainPage/mainPage.component';
 import CanvasComponent from './components/canvas/canvas.component';
 import canvasReducer from './components/canvas/store/canvas.reducer';
 import GetMapEffect from './components/canvas/store/effects/getMap.effect';
-import GetSelectedSignEffect from './components/canvas/store/effects/getSelectedSign.effect';
+import GetSelectedToolEffect from './components/canvas/store/effects/getSelectedTool.effect';
 import LeftToolbarComponent from './components/leftToolbar/leftToolbar.component';
 import GetUSG_ListEffect from './components/leftToolbar/store/effects/getUSG_List.effect';
 import UpdateSelectedUSG_Effect from './components/leftToolbar/store/effects/updateSelectedUSG.effect';
@@ -41,7 +41,7 @@ import MainPageRoutes from './mainPage.routes';
       UpdateSelectedUSG_Effect,
       UploadMapEffect,
       GetMapEffect,
-      GetSelectedSignEffect,
+      GetSelectedToolEffect,
     ]),
     StoreModule.forFeature('leftToolbar', leftToolbarReducer),
     StoreModule.forFeature('uploadMap', uploadMapReducer),
