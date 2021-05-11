@@ -13,7 +13,10 @@ import SelectedToolInterface from "../../types/selectedTool.interface";
 import SelectedToolTypes from "../../types/selectedToolTypes.enum";
 import { getMapAction } from "./store/actions/getMap.action";
 import { getSelectedToolAction } from "./store/actions/getSelectedTool.action";
-import { errorSelector, isLoadingSelector, mapSelector, selectedToolSelector } from "./store/canvas.selectors";
+import { Image, Svg, SVG } from '@svgdotjs/svg.js'
+import { currentLayerIndexSelector, errorSelector, isLoadingSelector, mapSelector, selectedToolSelector } from "./store/canvas.selectors";
+import RendererLayers from "../../classes/rendererLayers.class";
+import { getSvgSourceAction } from "./store/actions/getSvgSource.action";
 
 @Component({
   selector: 'tm-canvas',
@@ -21,21 +24,23 @@ import { errorSelector, isLoadingSelector, mapSelector, selectedToolSelector } f
   styleUrls: ['./canvas.component.scss']
 })
 export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy {
-  public app!: Pixi.Application;
+  public svg!: Svg;
 
   mapUrlSubscription: Subscription = new Subscription();
   selectedToolSubscription: Subscription = new Subscription();
+  currentLayerSubscription: Subscription = new Subscription();
 
   isLoading$!: Observable<boolean>;
   isSubmitting$!: Observable<boolean>;
   error$!: Observable<ErrorInterface | null>;
+  currentLayer!: Svg;
 
   map!: MapInterface | null;
   tool!: SelectedToolInterface | null;
-  pixiKeyEvents!: PixiKeyEvents;
-  layers: Pixi.Container = new Pixi.Container(); //all signs and shapes
+  rLayers!: RendererLayers;
+  rBackground!: Image;
 
-  @ViewChild("innerCanvas") canvasDOM!: ElementRef;
+  @ViewChild("innerCanvas") canvasDOM!: ElementRef<HTMLElement>;
 
   constructor(
     private store: Store<AppState>,
@@ -49,7 +54,6 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
   initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
     this.error$ = this.store.pipe(select(errorSelector));
-    this.initializePixiKeyEvents();
   }
 
   initializeListeners(): void {
@@ -57,7 +61,7 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
       this.store.pipe(select(mapSelector))
         .subscribe((map) => {
           this.map = map;        
-          this.updateMap();
+          this.renderBackground();
         })
     );
 
@@ -68,217 +72,50 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
           console.log(tool, 'TOOL SUBSCR')
         })
     );
+
+    this.currentLayerSubscription.add(
+      this.store.pipe(select(currentLayerIndexSelector))
+        .subscribe((currentLayerIdx) => {
+          this.currentLayer = this.rLayers.getLayer(currentLayerIdx)!;
+          console.log(currentLayerIdx, 'LAYER SUBSCR')
+        })
+    );
   }
 
-  initializePixiKeyEvents(): void {
-    this.pixiKeyEvents = {
-      down: this.keyboard('ArrowDown'),
-      left: this.keyboard('ArrowLeft'),
-      right: this.keyboard('ArrowRight'),
-      up: this.keyboard('ArrowUp')
-    }
-
-    this.initializePixiKeyHandlers();
-  }
-
-  initializePixiKeyHandlers(): void {
-    this.pixiKeyEvents.down.press = () => {
-
-    }
-    this.pixiKeyEvents.down.release = () => {
-
-    }
-
-    this.pixiKeyEvents.left.press = () => {
-
-    }
-    this.pixiKeyEvents.left.release = () => {
-      
-    }
-
-    this.pixiKeyEvents.right.press = () => {
-
-    }
-    this.pixiKeyEvents.right.release = () => {
-
-    }
-
-    this.pixiKeyEvents.up.press = () => {
-
-    }
-    this.pixiKeyEvents.up.release = () => {
-
-    }
-  }
-
-  unsubscribePixiKeyHandlers(): void {
-    this.pixiKeyEvents.down.unsubscribe();
-    this.pixiKeyEvents.left.unsubscribe();
-    this.pixiKeyEvents.right.unsubscribe();
-    this.pixiKeyEvents.up.unsubscribe();
-  }
-
-  initializePixiPointerEvents(entity: Pixi.DisplayObject) {
-    entity.interactive = true;
-    entity.cursor = 'pointer';
-    
-    entity.on('click', this.pixiMouseClickEventHandler)
-    entity.on('mousedown',  this.pixiMouseDownEventHandler)
-    entity.on('mousemove',  this.pixiMouseMoveEventHandler)
-    entity.on('mouseout',  this.pixiMouseOutEventHandler)
-    entity.on('mouseover',  this.pixiMouseOverEventHandler)
-    entity.on('mouseup',  this.pixiMouseUpEventHandler)
-    entity.on('mouseupoutside',  this.pixiMouseUpOutsideEventHandler)
-    entity.on('rightclick',  this.pixiMouseRightClickEventHandler)
-    entity.on('rightdown',  this.pixiMouseRightDownEventHandler)
-    entity.on('rightup',  this.pixiMouseRightUpEventHandler)
-    entity.on('rightupoutside',  this.pixiMouseRightUpOutsideEventHandler)
-  }
-
-  private pixiMouseClickEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event.data.global.x, 'click')
-    console.log(event.data.global.y, 'click')
-    const {data: {global: {x: posX, y: posY }}} = event;
-
-    console.log('SELECTED TOOL', this.tool)
-    if (this.tool) {
-      if (this.tool.type === SelectedToolTypes.MilSign) {
-        const texture = Pixi.Texture.from(this.tool.tool.value);
-        const sprite = new Pixi.Sprite(texture);
-        this.initializePixiPointerEvents(sprite);
-  
-        sprite.anchor.x = 0;
-        sprite.anchor.y = 0;
-  
-        sprite.position.x = posX;
-        sprite.position.y = posY;
-        
-        this.layers.addChild(sprite);
-      }
-    }
-  }
-
-  private pixiMouseDownEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'mousedown')
-  }
-
-  private pixiMouseMoveEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'mousemove')
-  }
-
-  private pixiMouseOutEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'mouseout')
-  }
-
-  private pixiMouseOverEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'mouseover')
-  }
-
-  private pixiMouseUpEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'mouseup')
-  }
-
-  private pixiMouseUpOutsideEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'mouseupoutside')
-  }
-
-  private pixiMouseRightClickEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'rightclick')
-  }
-
-  private pixiMouseRightDownEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'rightdown')
-  }
-
-  private pixiMouseRightUpEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'rightup')
-  }
-
-  private pixiMouseRightUpOutsideEventHandler(event: Pixi.InteractionEvent): void {
-    console.log(event, 'rightupoutside')
-  }
-
-  initializePixi(): void {
+  initializeRenderer(): void {
     this.ngZone.runOutsideAngular(() => {
-      this.app = new Pixi.Application();
+      
     });
 
-    this.app.renderer.backgroundColor = 0xffffff;
-    this.canvasDOM.nativeElement.appendChild(this.app.view);
-    this.app.stage.addChild(this.layers);
+    this.svg = SVG().addTo(this.canvasDOM.nativeElement).size(600, 400);    
   }
 
-  updateMap(): void {
-    if (!this.app || !this.map) return;
-
-    const mapTexture = Pixi.Texture.from(this.map.url);
-    const map = new Pixi.Sprite(mapTexture);
-    this.initializePixiPointerEvents(map);
-
-    this.app.renderer.resize(this.map.width, this.map.height)
-
-    map.anchor.x = 0;
-    map.anchor.y = 0;
-
-    map.position.x = 0;
-    map.position.y = 0;
-    
-    this.app.stage.addChild(map);
+  initializeLayers(): void {
+    this.rLayers = new RendererLayers(this.svg);
   }
 
-  private keyboard(value: string): PixiKey {
-    //The `downHandler`
-    const downHandler = (event: any) => {
-      if (event.key === key.value) {
-        if (key.isUp && key.press) key.press();
-        key.isDown = true;
-        key.isUp = false;
-        event.preventDefault();
-      }
-    };
-  
-    //The `upHandler`
-    const upHandler = (event: any) => {
-      if (event.key === key.value) {
-        if (key.isDown && key.release) key.release();
-        key.isDown = false;
-        key.isUp = true;
-        event.preventDefault();
-      }
-    };
+  renderBackground(): void {
+    if (!this.svg) return;
+    if (!this.map) return;
 
-     // Detach event listeners
-     const unsubscribe = () => {
-      window.removeEventListener("keydown", downListener);
-      window.removeEventListener("keyup", upListener);
-    };
+    if (this.rBackground) {
+      this.rBackground.load(this.map.url)
+    } else {
+      this.rBackground = this.svg.image(this.map.url)
+    }
 
-    let key: PixiKey = {
-      value,
-      isDown: false,
-      isUp: true,
-      press: null,
-      release: null,
-      downHandler,
-      upHandler,
-      unsubscribe,
-    };
-  
-    //Attach event listeners
-    const downListener = key.downHandler.bind(key);
-    const upListener = key.upHandler.bind(key);
-    
-    window.addEventListener(
-      "keydown", downListener, false
-    );
-    window.addEventListener(
-      "keyup", upListener, false
-    );
-    
-   
-    
-    return key;
+    this.svg.size(this.map.width, this.map.height);
   }
+
+  currentLayerRenderer(): void {
+    // this.currentLayer.svg(this.tool?.tool.value)
+    const toolUrl = this.tool?.tool.value;
+
+    if (toolUrl) {
+      this.store.dispatch(getSvgSourceAction({ url: toolUrl }));
+    }
+  }
+    
 
   ngOnInit(): void {
     this.initializeValues();
@@ -287,13 +124,15 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   ngAfterViewInit(): void {
-    this.initializePixi();
-    this.updateMap();
+    this.initializeRenderer();
+    this.initializeLayers();
+    this.rLayers.add();
+    this.currentLayerRenderer();
   }
 
   ngOnDestroy(): void {
     this.mapUrlSubscription.unsubscribe();
     this.selectedToolSubscription.unsubscribe();
-    this.unsubscribePixiKeyHandlers()
+    this.currentLayerSubscription.unsubscribe();
   }
 }

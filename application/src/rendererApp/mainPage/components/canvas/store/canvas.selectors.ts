@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import { Svg } from '@svgdotjs/svg.js';
 import MapInterface from 'src/rendererApp/mainPage/types/map.interface';
 import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.interface';
 
@@ -30,4 +31,8 @@ export const selectedToolSelector: MemoizedSelector<AppState, SelectedToolInterf
 export const mapSelector: MemoizedSelector<AppState, MapInterface | null> = createSelector(
   CanvasFeatureSelector,
   (state: CanvasState) => state.map
+);
+export const currentLayerIndexSelector: MemoizedSelector<AppState, number> = createSelector(
+  CanvasFeatureSelector,
+  (state: CanvasState) => state.currentLayer
 );

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/indent */
 import { routerNavigationAction } from '@ngrx/router-store';
 import { Action,createReducer, on } from '@ngrx/store';
+import CanvasModes from 'src/rendererApp/mainPage/types/canvasModes.enum';
 
 import CanvasState from '../../../types/canvas.state';
 import { getMapAction, getMapFailureAction,getMapSuccessAction } from './actions/getMap.action';
@@ -11,6 +12,8 @@ const initialState: CanvasState = {
   error: null,
   selectedTool: null,
   map: null,
+  mode: CanvasModes.constructor,
+  currentLayer: 0
 };
 
 const reducer = createReducer(initialState,
