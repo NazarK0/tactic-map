@@ -18,6 +18,7 @@ import { StoreModule } from '@ngrx/store';
 import FontPanelModule from '../shared/modules/fontPanel/fontPanel.module';
 import MainPageComponent from './components/@mainPage/mainPage.component';
 import CanvasComponent from './components/canvas/canvas.component';
+import CanvasService from './components/canvas/canvas.service';
 import canvasReducer from './components/canvas/store/canvas.reducer';
 import GetMapEffect from './components/canvas/store/effects/getMap.effect';
 import GetSelectedToolEffect from './components/canvas/store/effects/getSelectedTool.effect';
@@ -70,6 +71,7 @@ import MainPageRoutes from './mainPage.routes';
   providers: [
     // UtilsService,
     UploadMapService,
+    CanvasService,
   ],
 })
 export default class MainPageModule {}

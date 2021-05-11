@@ -6,6 +6,7 @@ import CanvasModes from 'src/rendererApp/mainPage/types/canvasModes.enum';
 import CanvasState from '../../../types/canvas.state';
 import { getMapAction, getMapFailureAction,getMapSuccessAction } from './actions/getMap.action';
 import { getSelectedToolAction, getSelectedToolSuccessAction, getSelectedToolFailureAction } from './actions/getSelectedTool.action';
+import { getSvgSourceAction, getSvgSourceSuccessAction, getSvgSourceFailureAction } from './actions/getSvgSource.action';
 
 const initialState: CanvasState = {
   isLoading: false,
@@ -71,6 +72,25 @@ const reducer = createReducer(initialState,
       })
   ),
   on(getSelectedToolFailureAction,
+      (state, action): CanvasState => ({
+        ...state,
+        isLoading: false,
+        error: action.error
+      })
+  ),
+  on(getSvgSourceAction,
+      (state): CanvasState => ({
+        ...state,
+        isLoading: true,
+      })
+  ),
+  on(getSvgSourceSuccessAction,
+      (state): CanvasState => ({
+        ...state,
+        isLoading: false,
+      })
+  ),
+  on(getSvgSourceFailureAction,
       (state, action): CanvasState => ({
         ...state,
         isLoading: false,

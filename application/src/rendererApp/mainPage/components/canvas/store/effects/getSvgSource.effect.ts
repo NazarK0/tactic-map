@@ -3,17 +3,16 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
-import UploadMapService from '../../../uploadMap/uploadMap.service';
-import SessionStorageService from '../../../../../shared/services/sessionStorage.service';
 import { getSvgSourceAction, getSvgSourceSuccessAction, getSvgSourceFailureAction } from '../actions/getSvgSource.action';
+import CanvasService from '../../canvas.service';
 
 @Injectable()
 export default class GetSvgSourceEffect {
   getSvgSource$ = createEffect(() => this.actions$
     .pipe(
       ofType(getSvgSourceAction),
-      switchMap(() => {
-        return this.sessionStorage.getSelectedTool()
+      switchMap(({ url }) => {
+        return this.canvasService.getSvgSource(url)
           .pipe(
             map((tool) => getSvgSourceSuccessAction({ tool })),
             catchError((error) => of(getSvgSourceFailureAction({ error })))
@@ -24,6 +23,6 @@ export default class GetSvgSourceEffect {
 
   constructor(
     private actions$: Actions,
-    private sessionStorage: SessionStorageService,
+    private canvasService: CanvasService,
   ) {}
 }

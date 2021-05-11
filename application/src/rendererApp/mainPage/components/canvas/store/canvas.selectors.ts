@@ -32,6 +32,7 @@ export const mapSelector: MemoizedSelector<AppState, MapInterface | null> = crea
   CanvasFeatureSelector,
   (state: CanvasState) => state.map
 );
+
 export const currentLayerIndexSelector: MemoizedSelector<AppState, number> = createSelector(
   CanvasFeatureSelector,
   (state: CanvasState) => state.currentLayer
