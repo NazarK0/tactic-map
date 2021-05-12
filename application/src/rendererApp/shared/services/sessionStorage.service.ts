@@ -36,7 +36,7 @@ export default class SessionStorageService {
   //   } else return of(null)
   // }
 
-  setSelectedMilSign(data: SelectedMilSignWithSrcInterface): Observable<SelectedMilSignInterface> {
+  setSelectedMilSign(data: SelectedMilSignInterface): Observable<SelectedMilSignInterface> {
     const selected: SelectedToolInterface = {
       tool: data,
       type: SelectedToolTypes.MilSign
