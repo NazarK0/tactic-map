@@ -2,7 +2,6 @@ import { createAction, props } from '@ngrx/store';
 import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.interface';
 
 import ErrorInterface from '../../../../../shared/types/error.interface';
-import SelectedMilSignInterface from '../../../../types/selectedMilSign.interface';
 import CanvasActionTypes from '../canvas.action-types';
 
 export const getSelectedToolAction = createAction(

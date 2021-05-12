@@ -1,7 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from "@angular/core";
-import { Observable } from 'rxjs';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 
-import USG_Interface from "../../../shared/types/usg.interface";
 import SelectedMilSignInterface from "../../types/selectedMilSign.interface";
 import USG_WithStateInterface from "../../types/usgWithState.interface";
 

@@ -1,22 +1,17 @@
 import { AfterViewInit, Component, ElementRef, NgZone,OnDestroy,OnInit, ViewChild } from "@angular/core";
 import { select,Store } from "@ngrx/store";
-import * as Pixi from 'pixi.js';
 import { Observable, Subscription } from "rxjs";
 
 import AppState from "../../../app.state";
 import ErrorInterface from "../../../shared/types/error.interface";
 import MapInterface from "../../types/map.interface";
-import PixiKey from "../../types/pixiKey.interface";
-import PixiKeyEvents from "../../types/pixiKeyEvents.interface";
-import SelectedMilSignInterface from "../../types/selectedMilSign.interface";
 import SelectedToolInterface from "../../types/selectedTool.interface";
-import SelectedToolTypes from "../../types/selectedToolTypes.enum";
 import { getMapAction } from "./store/actions/getMap.action";
-import { getSelectedToolAction } from "./store/actions/getSelectedTool.action";
 import { Image, Svg, SVG } from '@svgdotjs/svg.js'
 import { currentLayerIndexSelector, errorSelector, isLoadingSelector, mapSelector, selectedToolSelector } from "./store/canvas.selectors";
 import RendererLayers from "../../classes/rendererLayers.class";
 import { getSvgSourceAction } from "./store/actions/getSvgSource.action";
+import SelectedMilSignWithSrcInterface from "../../types/selectedMilSignWithSrc.interface";
 
 @Component({
   selector: 'tm-canvas',
@@ -109,10 +104,10 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
 
   currentLayerRenderer(): void {
     // this.currentLayer.svg(this.tool?.tool.value)
-    const toolUrl = this.tool?.tool.value;
+    const toolSrc = this.tool?.tool.src;
 
-    if (toolUrl) {
-      this.store.dispatch(getSvgSourceAction({ url: toolUrl }));
+    if (toolSrc) {
+      this.currentLayer.svg(toolSrc);
     }
   }
     

@@ -14,7 +14,7 @@ export default class GetSvgSourceEffect {
       switchMap(({ url }) => {
         return this.canvasService.getSvgSource(url)
           .pipe(
-            map((tool) => getSvgSourceSuccessAction({ tool })),
+            map((toolSrc) => getSvgSourceSuccessAction({ toolSrc })),
             catchError((error) => of(getSvgSourceFailureAction({ error })))
           );
       })

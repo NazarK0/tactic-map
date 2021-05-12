@@ -1,12 +1,10 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
-import { Svg } from '@svgdotjs/svg.js';
 import MapInterface from 'src/rendererApp/mainPage/types/map.interface';
 import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.interface';
 
 import AppState from '../../../../app.state';
 import ErrorInterface from '../../../../shared/types/error.interface';
 import CanvasState from '../../../types/canvas.state';
-import SelectedMilSignInterface from '../../../types/selectedMilSign.interface';
 
 export const CanvasFeatureSelector = createFeatureSelector<
 AppState,
@@ -25,7 +23,7 @@ export const errorSelector: MemoizedSelector<AppState, ErrorInterface | null> = 
 
 export const selectedToolSelector: MemoizedSelector<AppState, SelectedToolInterface | null> = createSelector(
   CanvasFeatureSelector,
-  (state: CanvasState) => state.selectedTool
+  (state: CanvasState) => state.currentTool
 );
 
 export const mapSelector: MemoizedSelector<AppState, MapInterface | null> = createSelector(

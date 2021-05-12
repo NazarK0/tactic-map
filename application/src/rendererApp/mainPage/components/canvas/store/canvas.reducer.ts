@@ -11,7 +11,7 @@ import { getSvgSourceAction, getSvgSourceSuccessAction, getSvgSourceFailureActio
 const initialState: CanvasState = {
   isLoading: false,
   error: null,
-  selectedTool: null,
+  currentTool: null,
   map: null,
   mode: CanvasModes.constructor,
   currentLayer: 0
@@ -68,7 +68,7 @@ const reducer = createReducer(initialState,
       (state, action): CanvasState => ({
         ...state,
         isLoading: false,
-        selectedTool: action.selectedTool
+        currentTool: action.selectedTool
       })
   ),
   on(getSelectedToolFailureAction,
@@ -85,7 +85,7 @@ const reducer = createReducer(initialState,
       })
   ),
   on(getSvgSourceSuccessAction,
-      (state): CanvasState => ({
+      (state, action): CanvasState => ({
         ...state,
         isLoading: false,
       })

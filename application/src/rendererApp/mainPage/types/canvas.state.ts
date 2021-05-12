@@ -6,7 +6,7 @@ import SelectedToolInterface from './selectedTool.interface';
 export default interface CanvasState {
   isLoading: boolean;
   error: ErrorInterface | null;
-  selectedTool: SelectedToolInterface | null;
+  currentTool: SelectedToolInterface | null;
   map: MapInterface | null;
   mode: CanvasModes;
   currentLayer: number;

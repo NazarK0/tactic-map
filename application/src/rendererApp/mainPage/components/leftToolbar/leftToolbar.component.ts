@@ -1,13 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Observable, of } from "rxjs";
-import { filter } from "rxjs/operators";
 
 import AppState from "../../../app.state";
 import ErrorInterface from "../../../shared/types/error.interface";
-import USG_Interface from "../../../shared/types/usg.interface";
 import SelectedMilSignInterface from '../../types/selectedMilSign.interface';
-import SelectedToolInterface from "../../types/selectedTool.interface";
+import SelectedMilSignWithSrcInterface from "../../types/selectedMilSignWithSrc.interface";
 import USG_WithStateInterface from "../../types/usgWithState.interface";
 import { getSelectedToolAction } from "../canvas/store/actions/getSelectedTool.action";
 import { getUSG_ListAction } from "./store/actions/getUSG_List.action";

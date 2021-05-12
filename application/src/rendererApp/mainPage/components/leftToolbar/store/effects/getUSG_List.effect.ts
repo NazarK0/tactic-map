@@ -5,8 +5,6 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 import SessionStorageService from '../../../../../shared/services/sessionStorage.service';
 import SharedUSG_Service from '../../../../../shared/services/usg.service';
-import USG_Interface from '../../../../../shared/types/usg.interface';
-import SelectedMilSignInterface from '../../../../types/selectedMilSign.interface';
 import USG_WithStateInterface from '../../../../types/usgWithState.interface';
 import { getUSG_ListAction, getUSG_ListFailureAction, getUSG_ListSuccessAction } from '../actions/getUSG_List.action';
 
@@ -38,6 +36,4 @@ export default class GetUSG_ListEffect {
     private sharedUSG_Service: SharedUSG_Service,
     private sessionStorage: SessionStorageService
   ) {}
-
-  
 }

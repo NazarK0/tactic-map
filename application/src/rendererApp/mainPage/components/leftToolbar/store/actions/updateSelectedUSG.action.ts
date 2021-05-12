@@ -1,7 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 
-import DSG_SignSelectedInterface from '../../../../../shared/types/dsgSignSelected.interface';
-import DSG_WithSelectedSignsInterface from '../../../../../shared/types/dsgWithSelectedSigns.interface';
 import ErrorInterface from '../../../../../shared/types/error.interface';
 import SelectedMilSignInterface from '../../../../types/selectedMilSign.interface';
 import USG_WithStateInterface from '../../../../types/usgWithState.interface';
