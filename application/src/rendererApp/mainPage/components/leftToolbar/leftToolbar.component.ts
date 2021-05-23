@@ -4,8 +4,7 @@ import { Observable, of } from "rxjs";
 
 import AppState from "../../../app.state";
 import ErrorInterface from "../../../shared/types/error.interface";
-import SelectedMilSignInterface from '../../types/selectedMilSign.interface';
-import SelectedMilSignWithSrcInterface from "../../types/selectedMilSignWithSrc.interface";
+import MilSignReqInterface from '../../types/milSignReq.interface';
 import USG_WithStateInterface from "../../types/usgWithState.interface";
 import { getSelectedToolAction } from "../canvas/store/actions/getSelectedTool.action";
 import { getUSG_ListAction } from "./store/actions/getUSG_List.action";
@@ -47,7 +46,7 @@ export default class LeftToolbarComponent implements OnInit {
     this.scrollTop = event.target.scrollTop;
   }
 
-  onSelectSign(selected: SelectedMilSignInterface): void {
+  onSelectSign(selected: MilSignReqInterface): void {
     this.store.dispatch(updateSelectedUSG_Action({ selected }));
     this.store.dispatch(getSelectedToolAction());
   }

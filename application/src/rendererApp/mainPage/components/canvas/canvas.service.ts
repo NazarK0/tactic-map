@@ -3,7 +3,7 @@ import { Observable, of } from "rxjs";
 
 @Injectable()
 export default class CanvasService {
-    getSvgSource(url: string): Observable<string> {
-        return of('<g><rect width="100" height="50" fill="#f36"></rect></g>');
+    getSvgSource(url: string): string {
+        return '<g><rect width="100" height="50" fill="#f36"></rect></g>';
     }
 }

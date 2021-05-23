@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 
-import SelectedMilSignInterface from "../../types/selectedMilSign.interface";
+import MilSignReqInterface from "../../types/milSignReq.interface";
 import USG_WithStateInterface from "../../types/usgWithState.interface";
 
 @Component({
@@ -12,7 +12,7 @@ export default class USG_Component implements OnInit, OnChanges {
   @Input('usg') usgProps!: USG_WithStateInterface;
   @Input('scrollTop') scrollTopProps!: number;
 
-  @Output('selectSign') selectSignEvent = new EventEmitter<SelectedMilSignInterface>();
+  @Output('selectSign') selectSignEvent = new EventEmitter<MilSignReqInterface>();
 
   showSigns!: boolean;
   offsetTop!: string;

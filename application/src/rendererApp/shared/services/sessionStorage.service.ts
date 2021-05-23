@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import SelectedMilSignWithSrcInterface from 'src/rendererApp/mainPage/types/selectedMilSignWithSrc.interface';
+import MilSignResInterface from 'src/rendererApp/mainPage/types/milSignRes.interface';
 import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.interface';
 import SelectedToolTypes from 'src/rendererApp/mainPage/types/selectedToolTypes.enum';
-
-import SelectedMilSignInterface from '../../mainPage/types/selectedMilSign.interface';
 
 @Injectable()
 export default class SessionStorageService {
@@ -28,15 +26,15 @@ export default class SessionStorageService {
    
   }
 
-  // getSelectedMilSign(): Observable<SelectedMilSignInterface | null> {
-  //   const selected: SelectedToolInterface | null = this.get('tool');
+  getSelectedMilSign(): Observable<MilSignResInterface | null> {
+    const selected: SelectedToolInterface | null = this.get('tool');
 
-  //   if (selected && selected.type === SelectedToolTypes.MilSign) {
-  //     return of(selected.tool)
-  //   } else return of(null)
-  // }
+    if (selected && selected.type === SelectedToolTypes.MilSign) {
+      return of(selected.tool)
+    } else return of(null)
+  }
 
-  setSelectedMilSign(data: SelectedMilSignInterface): Observable<SelectedMilSignInterface> {
+  setSelectedMilSign(data: MilSignResInterface): Observable<MilSignResInterface> {
     const selected: SelectedToolInterface = {
       tool: data,
       type: SelectedToolTypes.MilSign

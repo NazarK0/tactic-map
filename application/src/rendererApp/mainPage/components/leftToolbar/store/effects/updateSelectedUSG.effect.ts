@@ -9,6 +9,7 @@ import SessionStorageService from '../../../../../shared/services/sessionStorage
 import SharedUSG_Service from '../../../../../shared/services/usg.service';
 import DSG_SignInterface from '../../../../../shared/types/dsgSign.interface';
 import USG_WithStateInterface from '../../../../types/usgWithState.interface';
+import CanvasService from '../../../canvas/canvas.service';
 import { updateSelectedUSG_Action, updateSelectedUSG_FailureAction, updateSelectedUSG_SuccessAction } from '../actions/updateSelectedUSG.action';
 
 
@@ -17,8 +18,14 @@ export default class UpdateSelectedUSG_Effect {
   updateSignStatus$ = createEffect(() => this.actions$.pipe(
     ofType(updateSelectedUSG_Action),
     switchMap(({ selected }) => {
-      console.log(selected, 'SELECTED LT UPDATE SELECTED')
-      return combineLatest([this.sharedUSG_Service.getAll(), this.sessionStorage.setSelectedMilSign(selected)]).pipe(
+      return of ({
+        ...selected,
+        svgSrc: this.canvasService.getSvgSource(selected.value)
+      })
+    }),
+    switchMap((svgSrc) => {
+      console.log(svgSrc, 'SELECTED LT UPDATE SELECTED')
+      return combineLatest([this.sharedUSG_Service.getAll(), this.sessionStorage.setSelectedMilSign(svgSrc)]).pipe(
         map(([usgList, selected]) => {
           const usgListWithState: USG_WithStateInterface[] = usgList.map((usg) => ({
             ...usg,
@@ -39,6 +46,7 @@ export default class UpdateSelectedUSG_Effect {
     private sharedUSG_Service: SharedUSG_Service,
     private sessionStorage: SessionStorageService,
     private router: Router,
+    private canvasService: CanvasService,
   ) {}
 
   

@@ -1,4 +1,4 @@
-export default interface SelectedMilSignInterface {
+export default interface MilSignReqInterface {
   usgId: number;
   signId: number;
   value: string;

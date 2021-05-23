@@ -1,7 +1,8 @@
-import SelectedMilSignInterface from "./selectedMilSign.interface";
+import MilSignReqInterface from "./milSignReq.interface";
+import MilSignResInterface from "./milSignRes.interface";
 import SelectedToolTypes from "./selectedToolTypes.enum";
 
 export default interface SelectedToolInterface {
-    tool: SelectedMilSignInterface;
+    tool: MilSignResInterface;
     type: SelectedToolTypes;
 }

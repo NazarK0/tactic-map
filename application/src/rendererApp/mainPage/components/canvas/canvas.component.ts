@@ -10,8 +10,7 @@ import { getMapAction } from "./store/actions/getMap.action";
 import { Image, Svg, SVG } from '@svgdotjs/svg.js'
 import { currentLayerIndexSelector, errorSelector, isLoadingSelector, mapSelector, selectedToolSelector } from "./store/canvas.selectors";
 import RendererLayers from "../../classes/rendererLayers.class";
-import { getSvgSourceAction } from "./store/actions/getSvgSource.action";
-import SelectedMilSignWithSrcInterface from "../../types/selectedMilSignWithSrc.interface";
+import SelectedToolTypes from "../../types/selectedToolTypes.enum";
 
 @Component({
   selector: 'tm-canvas',
@@ -104,10 +103,17 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
 
   currentLayerRenderer(): void {
     // this.currentLayer.svg(this.tool?.tool.value)
-    const toolSrc = this.tool?.tool.src;
-
-    if (toolSrc) {
-      this.currentLayer.svg(toolSrc);
+  
+    if (this.tool) {
+      switch (this.tool.type) {
+        case SelectedToolTypes.MilSign:
+          const toolSrc = this.tool.tool.svgSrc;
+          console.log(toolSrc, 'Tool Src');
+          this.currentLayer.svg(toolSrc);
+          break;
+        default:
+          break;
+      }
     }
   }
     
