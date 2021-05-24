@@ -5,6 +5,7 @@ import usgController from './entities/usg/usg.controller';
 import dsgController from './entities/dsg/dsg.controller';
 import topToolbarController from './entities/topToolbar/topToolbar.controller';
 import initUploadFolders from './utils/initUploadFolders';
+import canvasController from './entities/canvas/canvas.controller';
 
 let win: BrowserWindow | null;
 const db = new DbConnect(path.join(app.getPath("documents"),'tactic-map', 'database.sqlite'));
@@ -43,4 +44,5 @@ function ininializeControllers(db: DbConnect, win: BrowserWindow) {
   usgController(db.models, win);
   dsgController(db.models, win, app);
   topToolbarController(win);
+  canvasController();
 }

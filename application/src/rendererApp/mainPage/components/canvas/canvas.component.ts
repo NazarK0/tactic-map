@@ -29,7 +29,6 @@ export default class CanvasComponent implements AfterViewInit, OnDestroy {
   error$!: Observable<ErrorInterface | null>;
   currentLayer!: Svg;
 
-  map!: MapInterface | null;
   tool!: SelectedToolInterface | null;
   rLayers!: RendererLayers;
   rBackground!: Image;
@@ -52,7 +51,7 @@ export default class CanvasComponent implements AfterViewInit, OnDestroy {
 
   initializeCanvasMouseEvents(): void {
     this.rBackground.click(() => {
-      if (this.tool) {
+      if (this.tool && this.currentLayer) {
         switch (this.tool.type) {
           case SelectedToolTypes.MilSign:
             const toolSrc = this.tool.tool.svgSrc;
@@ -69,27 +68,17 @@ export default class CanvasComponent implements AfterViewInit, OnDestroy {
   initializeListeners(): void {
     this.mapUrlSubscription.add(
       this.store.pipe(select(mapSelector))
-        .subscribe((map) => {
-          this.map = map;        
-          this.renderBackground(); //pass map directly TODO
+        .subscribe((map) => {    
+          if (map) {
+            this.renderBackground(map);
+          }
         })
     );
 
     this.selectedToolSubscription.add(
       this.store.pipe(select(selectedToolSelector))
-        .subscribe((tool) => {
-          this.tool = tool;
-        })
+        .subscribe((tool) => this.tool = tool)
     );
-
-    this.currentLayerSubscription.add(
-      this.store.pipe(select(currentLayerIndexSelector))
-        .subscribe((currentLayerIdx) => {
-          this.currentLayer = this.rLayers.getLayer(currentLayerIdx)!;
-        })
-    );
-
-    
   }
 
   initializeRenderer(): void {
@@ -103,34 +92,35 @@ export default class CanvasComponent implements AfterViewInit, OnDestroy {
   initializeLayers(): void {
     this.rLayers = new RendererLayers(this.svg);
     this.rLayers.add();
+
+    this.currentLayerSubscription.add(
+      this.store.pipe(select(currentLayerIndexSelector))
+        .subscribe((currentLayerIdx) => {
+          this.currentLayer = this.rLayers.getLayer(currentLayerIdx)!;
+        })
+    );
   }
 
-  renderBackground(): void {
+  renderBackground(map: MapInterface): void {
     if (!this.svg) return;
-    if (!this.map) return;
 
     if (this.rBackground) {
-      this.rBackground.load(this.map.url)
+      this.rBackground.load(map.url)
     } else {
-      this.rBackground = this.svg.image(this.map.url)
+      this.rBackground = this.svg.image(map.url)
     }
-    //NEED TO SET Z-INDEX FOR BG
-
-    this.initializeCanvasMouseEvents();
-    this.svg.size(this.map.width, this.map.height);
-  }
-
-  currentLayerRenderer(): void {
-    // render saved data
+    
+    this.svg.size(map.width, map.height);
   }
 
   ngAfterViewInit(): void {
     this.initializeRenderer();
-    this.initializeLayers();
     this.initializeValues();
     this.initializeListeners();
     this.fetchData();
-    this.currentLayerRenderer();
+    this.initializeLayers();
+    this.initializeCanvasMouseEvents();
+    
   }
 
   ngOnDestroy(): void {
