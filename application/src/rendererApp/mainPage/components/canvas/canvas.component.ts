@@ -50,13 +50,13 @@ export default class CanvasComponent implements AfterViewInit, OnDestroy {
   }
 
   initializeCanvasMouseEvents(): void {
-    this.rBackground.click(() => {
+    this.rBackground.click((event: MouseEvent) => {
+      console.log(event, 'CLICK EVENT')
       if (this.tool && this.currentLayer) {
         switch (this.tool.type) {
           case SelectedToolTypes.MilSign:
             const toolSrc = this.tool.tool.svgSrc;
-            console.log(toolSrc, 'Tool Src');
-            this.currentLayer.svg(toolSrc);
+            this.currentLayer.svg(toolSrc).move(event.offsetX, event.offsetY);
             break;
           default:
             break;
