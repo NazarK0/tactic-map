@@ -17,7 +17,7 @@ import SelectedToolTypes from "../../types/selectedToolTypes.enum";
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy {
+export default class CanvasComponent implements AfterViewInit, OnDestroy {
   public svg!: Svg;
 
   mapUrlSubscription: Subscription = new Subscription();
@@ -39,7 +39,7 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
   constructor(
     private store: Store<AppState>,
     private ngZone: NgZone
-  ) {}
+  ) { }
 
   fetchData(): void {
     this.store.dispatch(getMapAction());
@@ -50,12 +50,28 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
     this.error$ = this.store.pipe(select(errorSelector));
   }
 
+  initializeCanvasMouseEvents(): void {
+    this.rBackground.click(() => {
+      if (this.tool) {
+        switch (this.tool.type) {
+          case SelectedToolTypes.MilSign:
+            const toolSrc = this.tool.tool.svgSrc;
+            console.log(toolSrc, 'Tool Src');
+            this.currentLayer.svg(toolSrc);
+            break;
+          default:
+            break;
+        }
+      }
+    })
+  }
+
   initializeListeners(): void {
     this.mapUrlSubscription.add(
       this.store.pipe(select(mapSelector))
         .subscribe((map) => {
           this.map = map;        
-          this.renderBackground();
+          this.renderBackground(); //pass map directly TODO
         })
     );
 
@@ -63,7 +79,6 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
       this.store.pipe(select(selectedToolSelector))
         .subscribe((tool) => {
           this.tool = tool;
-          console.log(tool, 'TOOL SUBSCR')
         })
     );
 
@@ -71,9 +86,10 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
       this.store.pipe(select(currentLayerIndexSelector))
         .subscribe((currentLayerIdx) => {
           this.currentLayer = this.rLayers.getLayer(currentLayerIdx)!;
-          console.log(currentLayerIdx, 'LAYER SUBSCR')
         })
     );
+
+    
   }
 
   initializeRenderer(): void {
@@ -86,6 +102,7 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
 
   initializeLayers(): void {
     this.rLayers = new RendererLayers(this.svg);
+    this.rLayers.add();
   }
 
   renderBackground(): void {
@@ -97,37 +114,22 @@ export default class CanvasComponent implements OnInit, AfterViewInit, OnDestroy
     } else {
       this.rBackground = this.svg.image(this.map.url)
     }
+    //NEED TO SET Z-INDEX FOR BG
 
+    this.initializeCanvasMouseEvents();
     this.svg.size(this.map.width, this.map.height);
   }
 
   currentLayerRenderer(): void {
-    // this.currentLayer.svg(this.tool?.tool.value)
-  
-    if (this.tool) {
-      switch (this.tool.type) {
-        case SelectedToolTypes.MilSign:
-          const toolSrc = this.tool.tool.svgSrc;
-          console.log(toolSrc, 'Tool Src');
-          this.currentLayer.svg(toolSrc);
-          break;
-        default:
-          break;
-      }
-    }
-  }
-    
-
-  ngOnInit(): void {
-    this.initializeValues();
-    this.initializeListeners();
-    this.fetchData();
+    // render saved data
   }
 
   ngAfterViewInit(): void {
     this.initializeRenderer();
     this.initializeLayers();
-    this.rLayers.add();
+    this.initializeValues();
+    this.initializeListeners();
+    this.fetchData();
     this.currentLayerRenderer();
   }
 
