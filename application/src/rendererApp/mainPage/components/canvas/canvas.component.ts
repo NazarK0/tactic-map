@@ -56,7 +56,11 @@ export default class CanvasComponent implements AfterViewInit, OnDestroy {
         switch (this.tool.type) {
           case SelectedToolTypes.MilSign:
             const toolSrc = this.tool.tool.svgSrc;
-            this.currentLayer.svg(toolSrc).move(event.offsetX, event.offsetY);
+            
+            // const sign = this.currentLayer.svg(toolSrc);
+            // sign.move(event.x, event.y);
+            const sign = this.currentLayer.element('svg').words(toolSrc);
+            // sign.mo
             break;
           default:
             break;
