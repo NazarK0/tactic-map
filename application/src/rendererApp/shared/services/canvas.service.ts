@@ -8,6 +8,7 @@ import usgIpcMessages from "src/rendererApp/userSignGroup/types/usg.ipcMessages"
 import MilSignReqInterface from "src/rendererApp/mainPage/types/milSignReq.interface";
 import ToolExtraDataInterface from "../types/toolExtraData.interface";
 import SelectedToolType from "src/rendererApp/mainPage/types/selectedTool.type";
+import ToolGroupInterface from "../types/toolGroup.interface";
 
 @Injectable()
 export default class CanvasService {
@@ -34,9 +35,9 @@ export default class CanvasService {
         // return '<g><rect width="100" height="50" fill="#f36"></rect></g>';
     }
 
-    getAllToolGroups(): Observable<USG_Interface[]> {
-      const response: IpcBodyInterface = this.ipc.sendSync(usgIpcMessages.USG_GetList);
-      console.log('list service', response.data)
+    getAllToolGroups(): Observable<ToolGroupInterface[]> {
+      const response: IpcBodyInterface = this.ipc.sendSync(canvasIpcMessages.getToolGroups);
+      console.log('list  CANVAS service', response.data)
   
       if (response.status === 'ok') {
         return of(response.data);

@@ -44,5 +44,5 @@ function ininializeControllers(db: DbConnect, win: BrowserWindow) {
   usgController(db.models, win);
   dsgController(db.models, win, app);
   topToolbarController(win);
-  canvasController();
+  canvasController(db.models, app);
 }

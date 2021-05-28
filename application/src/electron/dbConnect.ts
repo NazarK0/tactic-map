@@ -1,8 +1,8 @@
 import { Sequelize } from 'sequelize';
 import dsgModelInit from './entities/dsg/dsg.model';
-import dsgSignModelsInit from './entities/dsg/dsgSign.model';
 import usgModelInit from './entities/usg/usg.model';
 import ModelsInterface from 'types/models.interface';
+import toolModelInit from './entities/dsg/tool.model';
 
 export default class DbConnect {
   private seqelize!: Sequelize;
@@ -15,7 +15,7 @@ export default class DbConnect {
     });
 
     this.models = {
-      dsgSign: null,
+      tool: null,
       defaultSignGroup: null,
       userSignGroup: null
   };
@@ -40,14 +40,14 @@ export default class DbConnect {
   }
 
   private initModels() {
-    this.models.dsgSign = dsgSignModelsInit(this.seqelize);
+    this.models.tool = toolModelInit(this.seqelize);
     this.models.defaultSignGroup = dsgModelInit(this.seqelize);
     this.models.userSignGroup = usgModelInit(this.seqelize);
 
-    this.models.defaultSignGroup.hasMany(this.models.dsgSign, { onDelete: 'cascade', foreignKey: 'dsgFK' });
-    this.models.userSignGroup.hasMany(this.models.dsgSign, { onDelete: 'set null', foreignKey: 'usgFK' });
-    this.models.dsgSign.belongsTo(this.models.defaultSignGroup, { as: 'defaultGroup', foreignKey: 'dsgFK' });
-    this.models.dsgSign.belongsTo(this.models.userSignGroup, { as: 'userGroup', foreignKey: 'usgFK' });
+    this.models.defaultSignGroup.hasMany(this.models.tool, { onDelete: 'cascade', foreignKey: 'dsgFK' });
+    this.models.userSignGroup.hasMany(this.models.tool, { onDelete: 'set null', foreignKey: 'usgFK' });
+    this.models.tool.belongsTo(this.models.defaultSignGroup, { as: 'defaultGroup', foreignKey: 'dsgFK' });
+    this.models.tool.belongsTo(this.models.userSignGroup, { as: 'userGroup', foreignKey: 'usgFK' });
   }
 
   private syncModels() {

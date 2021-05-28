@@ -1,19 +1,21 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 
 import MilSignReqInterface from "../../types/milSignReq.interface";
+import SelectedToolReqType from "../../types/selectedToolReq.type";
 import SelectedToolTypes from "../../types/selectedToolTypes.enum";
+import ToolGroupWithStateInterface from "../../types/toolGroupWithState.interface";
 import USG_WithStateInterface from "../../types/toolGroupWithState.interface";
 
 @Component({
-  selector: 'tm-usg',
-  templateUrl: './usg.component.html',
-  styleUrls: ['./usg.component.scss']
+  selector: 'tm-tools-group',
+  templateUrl: './toolsGroup.component.html',
+  styleUrls: ['./toolsGroup.component.scss']
 })
-export default class USG_Component implements OnInit, OnChanges {
-  @Input('usg') usgProps!: USG_WithStateInterface;
+export default class ToolsGroupComponent implements OnInit, OnChanges {
+  @Input('group') groupProps!: ToolGroupWithStateInterface;
   @Input('scrollTop') scrollTopProps!: number;
 
-  @Output('selectSign') selectSignEvent = new EventEmitter<MilSignReqInterface>();
+  @Output('selectTool') selectSignEvent = new EventEmitter<SelectedToolReqType>();
 
   showSigns!: boolean;
   offsetTop!: string;
@@ -34,7 +36,7 @@ export default class USG_Component implements OnInit, OnChanges {
     this.showSigns = !this.showSigns;
   }
 
-  onSelectSign(event: any): void {
+  onSelectTool(event: any): void {
     const usgId = Number(event.source.name);
     const signId = Number(event.source.id);
     const url: string = event.value;

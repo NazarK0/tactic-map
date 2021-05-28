@@ -6,7 +6,7 @@ import * as path from 'path';
 import ModelsInterface from "types/models.interface";
 
 import dsgIpcMessages from "./dsg.ipcMessages";
-import DSG_SignAttributes from "types/dsgSign.attributes";
+import DSG_SignAttributes from "types/tool.attributes";
 
 export default function dsgController(models: ModelsInterface, window: BrowserWindow, app: App): void {
   // if (!sequelize) {
@@ -63,7 +63,7 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      const dsg: any = (await models.defaultSignGroup.findByPk(queryParams.id, { include: 'DsgSigns' })).toJSON();
+      const dsg: any = (await models.defaultSignGroup.findByPk(queryParams.id, { include: 'Tools' })).toJSON();
       console.log(dsg, 'DSG GET BY ID CTR')
 
       response = {
@@ -133,9 +133,9 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      const groupId: any = (await models.dsgSign.findByPk(queryParams.id)).toJSON();
-      await models.dsgSign.destroy({ where: { id: queryParams.id } });
-      const updatedList = await models.dsgSign.findAll({ where: { dsgFK: groupId.dsgFK }, raw: true });
+      const groupId: any = (await models.tool.findByPk(queryParams.id)).toJSON();
+      await models.tool.destroy({ where: { id: queryParams.id } });
+      const updatedList = await models.tool.findAll({ where: { dsgFK: groupId.dsgFK }, raw: true });
       console.log('DSG DELETE SIGN CTR')
       console.table(updatedList);
 
@@ -193,7 +193,7 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     fs.copyFileSync(imgOriginalPath, resultPath);
 
     try {
-      const newSign = await models.dsgSign.create({
+      const newSign = await models.tool.create({
           dsgFK: dsgId,
           ...sign,
           sign: newRelativePath
@@ -218,7 +218,7 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      const sign: any = (await models.dsgSign.findByPk(id)).toJSON();
+      const sign: any = (await models.tool.findByPk(id)).toJSON();
       console.log('GET DSG SIGN CTR', sign)
 
       response = {
@@ -240,7 +240,7 @@ export default function dsgController(models: ModelsInterface, window: BrowserWi
     let response;
 
     try {
-      const updatedSign = await models.dsgSign.update(signInput, {
+      const updatedSign = await models.tool.update(signInput, {
         where: { id }
       });
 

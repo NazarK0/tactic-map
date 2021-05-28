@@ -1,7 +1,7 @@
-import USG_Interface from "../../shared/types/usg.interface";
+import ToolGroupInterface from "src/rendererApp/shared/types/toolGroup.interface";
 import MilSignResInterface from "./milSignRes.interface";
 
-export default interface ToolGroupWithStateInterface extends USG_Interface {
+export default interface ToolGroupWithStateInterface extends ToolGroupInterface {
   isSelected: boolean;
   selectedTool: MilSignResInterface | null;
 }

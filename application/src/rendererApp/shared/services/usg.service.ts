@@ -53,17 +53,17 @@ export default class USG_Service {
     }
   }
 
-  getAll(): Observable<USG_Interface[]> {
-    const response: IpcBodyInterface = this.ipc.sendSync(usgIpcMessages.USG_GetList);
-    console.log('list service', response.data)
+  // getAll(): Observable<USG_Interface[]> {
+  //   const response: IpcBodyInterface = this.ipc.sendSync(usgIpcMessages.USG_GetList);
+  //   console.log('list service', response.data)
 
-    if (response.status === 'ok') {
-      return of(response.data);
-    } else {
-      console.log('list service error', response)
-      throw new Error(response.data);
-    }
-  }
+  //   if (response.status === 'ok') {
+  //     return of(response.data);
+  //   } else {
+  //     console.log('list service error', response)
+  //     throw new Error(response.data);
+  //   }
+  // }
 
   getMenu(): Observable<VMenuItemInterface[]> {
     const response: IpcBodyInterface = this.ipc.sendSync(usgIpcMessages.USG_GetMenu);

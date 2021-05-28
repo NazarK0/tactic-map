@@ -5,7 +5,7 @@ import * as path from 'path';
 import IpcBodyInterface from "../../types/ipcBody.interface";
 import VMenuItemInterface from '../../types/vmenuItem.interface';
 import USG_Attributes from '../../types/usg.attributes';
-import DSG_SignAttributes from "types/dsgSign.attributes";
+import DSG_SignAttributes from "types/tool.attributes";
 import ModelsInterface from "types/models.interface";
 import usgIpcMessages from "./usg.ipcMessages";
 import appFolders from "constants/appResourceFolders";
@@ -60,7 +60,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     let response: IpcBodyInterface;
 
     try {
-      const usg: any = (await models.userSignGroup.findByPk(queryParams.id, { include: 'DsgSigns' })).toJSON();
+      const usg: any = (await models.userSignGroup.findByPk(queryParams.id, { include: 'Tools' })).toJSON();
       console.log('GET USG CTR', usg)
 
       response = {
@@ -103,35 +103,35 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     }
   });
 
-  ipcMain.on(usgIpcMessages.USG_GetList, async (event) => {
-    let response: IpcBodyInterface;
+  // ipcMain.on(usgIpcMessages.USG_GetList, async (event) => {
+  //   let response: IpcBodyInterface;
 
-    try {
-      // const list: USG_Attributes[] = [];
-      // console.log(sequelize.models, 'MODELS')
-      // const list: USG_Attributes[] = (await UserSignGroup.findAll({ raw: true })) as unknown as USG_Attributes[];
-      const rawList: any = await models.userSignGroup.findAll({ include: 'DsgSigns' });
-      const list: any = JSON.parse(JSON.stringify(rawList))
-      console.log('USG LIST CTR', list)
+  //   try {
+  //     // const list: USG_Attributes[] = [];
+  //     // console.log(sequelize.models, 'MODELS')
+  //     // const list: USG_Attributes[] = (await UserSignGroup.findAll({ raw: true })) as unknown as USG_Attributes[];
+  //     const rawList: any = await models.userSignGroup.findAll({ include: 'Tools' });
+  //     const list: any = JSON.parse(JSON.stringify(rawList))
+  //     console.log('USG LIST CTR', list)
 
-      response = {
-        data: list.map((group) => ({
-          id: group.id,
-          title: group.title,
-          description: group.description,
-          signs: group.DsgSigns.map(s => ({...s, url: path.join(app.getPath('documents'), s.sign ), with: 50, height: 60 }))
-        })),
-        status: 'ok'
-      };
-    } catch (error) {
-      response = {
-        data: error,
-        status: 'error'
-      };
-    } finally {
-      event.returnValue = response;
-    }
-  });
+  //     response = {
+  //       data: list.map((group) => ({
+  //         id: group.id,
+  //         title: group.title,
+  //         description: group.description,
+  //         signs: group.DsgSigns.map(s => ({...s, url: path.join(app.getPath('documents'), s.sign ), with: 50, height: 60 }))
+  //       })),
+  //       status: 'ok'
+  //     };
+  //   } catch (error) {
+  //     response = {
+  //       data: error,
+  //       status: 'error'
+  //     };
+  //   } finally {
+  //     event.returnValue = response;
+  //   }
+  // });
 
   ipcMain.on(usgIpcMessages.USG_DeleteById, async (event, args) => {
     const { queryParams } = args;
@@ -159,8 +159,8 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     let response: IpcBodyInterface;
 
     try {
-      const removing: any = await models.dsgSign.findByPk(queryParams.id, { raw: true });
-      await models.dsgSign.update({
+      const removing: any = await models.tool.findByPk(queryParams.id, { raw: true });
+      await models.tool.update({
         usgFK: null,
       }, {
         where: {
@@ -169,7 +169,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
       });
   
       
-      const updatedList = (await models.dsgSign.findAll({
+      const updatedList = (await models.tool.findAll({
         where: { usgFK: removing.usgFK },
         raw: true,
       }));
@@ -193,23 +193,23 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     let response: IpcBodyInterface;
 
     try {
-      const sign: any = await models.dsgSign.findByPk(id,
+      const sign: any = await models.tool.findByPk(id,
         { raw: true }
       );
 
       console.log('TOGGLE SIGN CTR', sign);
   
       if (!sign.usgFK) {
-        await models.dsgSign.update({ usgFK: usgId }, {
+        await models.tool.update({ usgFK: usgId }, {
           where: { id }
         });
       } else if (sign.usgFK && sign.usgFK === usgId) {
-        await models.dsgSign.update({ usgFK: null }, {
+        await models.tool.update({ usgFK: null }, {
           where: { id }
         });
       }
 
-      const updatedSign: any = await models.dsgSign.findByPk(id,
+      const updatedSign: any = await models.tool.findByPk(id,
         { raw: true }
       );
 
@@ -281,7 +281,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
     let response: IpcBodyInterface;
 
     try {
-      const sign = (await models.dsgSign.findByPk(id)) as unknown as DSG_SignAttributes;
+      const sign = (await models.tool.findByPk(id)) as unknown as DSG_SignAttributes;
 
       response = {
         status: 'ok',

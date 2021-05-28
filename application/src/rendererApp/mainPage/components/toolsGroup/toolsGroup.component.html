@@ -1,14 +1,14 @@
 <div class="">
   <div class="stripe" *ngIf="showSigns">
     <mat-button-toggle-group
-      [name]="usgProps.id.toString()"
+      [name]="groupProps.id.toString()"
       [style.top]="offsetTop"
-      [value]="usgProps.selectedSign?.url"
+      [value]="groupProps.selectedTool?.url"
       class="sign-group"
-      (change)="onSelectSign($event)"
+      (change)="onSelectTool($event)"
     >
       <mat-button-toggle
-        *ngFor="let item of usgProps.signs;"
+        *ngFor="let item of groupProps.signs;"
         [value]="item.sign"
         class="stripe-btn"
         [aria-label]="item.title"
@@ -24,11 +24,11 @@
     color="primary"
     class="usg-btn"
     class="toggle-btn"
-    [ngClass]="{ 'active': usgProps.isSelected}"
+    [ngClass]="{ 'active': groupProps.isSelected}"
     (click)="onToggle()"
-    [title]="usgProps.title"
+    [title]="groupProps.title"
   >
-    <img *ngIf="usgProps.isSelected" [src]="'file://'+ usgProps.selectedSign?.url" class="toggle-img">
-    <div *ngIf="!usgProps.isSelected" class="group-circle"></div>
+    <img *ngIf="groupProps.isSelected" [src]="'file://'+ groupProps.selectedTool?.url" class="toggle-img">
+    <div *ngIf="!groupProps.isSelected" class="group-circle"></div>
   </button>
 </div>

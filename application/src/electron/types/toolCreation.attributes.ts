@@ -1,4 +1,4 @@
-export default interface DSG_SignCreationAttributes {
+export default interface ToolCreationAttributes {
   title: string;
   sign: string;
   description: string;

@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import CanvasService from 'src/rendererApp/shared/services/canvas.service';
 
-import SessionStorageService from '../../../../../shared/services/sessionStorage.service';
-import SharedUSG_Service from '../../../../../shared/services/usg.service';
 import ToolGroupWithStateInterface from '../../../../types/toolGroupWithState.interface';
 import { getToolGroupsAction, getToolGroupsFailureAction, getToolGroupsSuccessAction } from '../actions/getToolGroups.action';
 
@@ -13,7 +12,7 @@ export default class GetToolGroupsEffect {
   getToolGroups$ = createEffect(() => this.actions$.pipe(
     ofType(getToolGroupsAction),
     switchMap(() => {
-      return this.sharedUSG_Service.getAll().pipe(
+      return this.sharedCanvasService.getAllToolGroups().pipe(
         map((toolGroups) => {
           const toolGroupsWithState: ToolGroupWithStateInterface[] = toolGroups.map((group) => {
             return {
@@ -32,7 +31,6 @@ export default class GetToolGroupsEffect {
   ));
   constructor(
     private actions$: Actions,
-    private sharedUSG_Service: SharedUSG_Service,
-    private sessionStorage: SessionStorageService
+    private sharedCanvasService: CanvasService,
   ) {}
 }

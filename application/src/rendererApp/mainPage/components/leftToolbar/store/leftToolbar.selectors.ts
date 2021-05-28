@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
+import ToolGroupWithStateInterface from 'src/rendererApp/mainPage/types/toolGroupWithState.interface';
 import USG_WithStateInterface from 'src/rendererApp/mainPage/types/toolGroupWithState.interface';
 
 import AppState from '../../../../app.state';
@@ -21,7 +22,7 @@ export const errorSelector: MemoizedSelector<AppState, ErrorInterface | null> = 
   (state: LeftToolbarState) => state.error
 );
 
-export const usgListSelector: MemoizedSelector<AppState, USG_WithStateInterface[] | null> = createSelector(
+export const toolGroupsSelector: MemoizedSelector<AppState, ToolGroupWithStateInterface[] | null> = createSelector(
   LeftToolbarFeatureSelector,
   (state: LeftToolbarState) => state.data
 );

@@ -5,11 +5,14 @@ import { Observable, of } from "rxjs";
 import AppState from "../../../app.state";
 import ErrorInterface from "../../../shared/types/error.interface";
 import MilSignReqInterface from '../../types/milSignReq.interface';
+import SelectedToolType from "../../types/selectedTool.type";
+import SelectedToolReqType from "../../types/selectedToolReq.type";
+import ToolGroupWithStateInterface from "../../types/toolGroupWithState.interface";
 import USG_WithStateInterface from "../../types/toolGroupWithState.interface";
 import { getSelectedToolAction } from "../canvas/store/actions/getSelectedTool.action";
 import { getToolGroupsAction } from "./store/actions/getToolGroups.action";
 import { updateSelectedToolGroupAction } from './store/actions/updateSelectedToolGroup.action';
-import { errorSelector, isLoadingSelector, usgListSelector } from "./store/leftToolbar.selectors";
+import { errorSelector, isLoadingSelector, toolGroupsSelector } from "./store/leftToolbar.selectors";
 
 @Component({
   selector: 'tm-left-toolbar',
@@ -19,7 +22,7 @@ import { errorSelector, isLoadingSelector, usgListSelector } from "./store/leftT
 export default class LeftToolbarComponent implements OnInit { 
   isLoading$!: Observable<boolean>;
   error$!: Observable<ErrorInterface | null>;
-  usgList$!: Observable<USG_WithStateInterface[] | null>;
+  toolGroups$!: Observable<ToolGroupWithStateInterface[] | null>;
   // activeItem$: Observable<SelectSignEventInterface | null>;
   scrollTop = 0;
 
@@ -30,7 +33,7 @@ export default class LeftToolbarComponent implements OnInit {
   initializeValues(): void {
     this.isLoading$ = this.store.pipe(select(isLoadingSelector));
     this.error$ = this.store.pipe(select(errorSelector));
-    this.usgList$ = this.store.pipe(select(usgListSelector));
+    this.toolGroups$ = this.store.pipe(select(toolGroupsSelector));
   }
 
   fetchData(): void {
@@ -46,7 +49,7 @@ export default class LeftToolbarComponent implements OnInit {
     this.scrollTop = event.target.scrollTop;
   }
 
-  onSelectSign(selected: MilSignReqInterface): void {
+  onSelectTool(selected: SelectedToolReqType): void {
     this.store.dispatch(updateSelectedToolGroupAction({ selected }));
     this.store.dispatch(getSelectedToolAction());
   }

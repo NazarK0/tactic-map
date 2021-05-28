@@ -31,7 +31,7 @@ import UploadMapEffect from './components/uploadMap/store/effects/uploadMap.effe
 import uploadMapReducer from './components/uploadMap/store/uploadMap.reducer';
 import UploadMapComponent from './components/uploadMap/uploadMap.component';
 import UploadMapService from './components/uploadMap/uploadMap.service';
-import USG_Component from './components/userSignGroup/usg.component';
+import ToolsGroupComponent from './components/toolsGroup/toolsGroup.component';
 import MainPageRoutes from './mainPage.routes';
 
 @NgModule({
@@ -64,7 +64,7 @@ import MainPageRoutes from './mainPage.routes';
     MainPageComponent,
     TopToolbarComponent,
     LeftToolbarComponent,
-    USG_Component,
+    ToolsGroupComponent,
     CanvasComponent,
     UploadMapComponent,
   ],

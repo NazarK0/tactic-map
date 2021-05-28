@@ -1,4 +1,4 @@
-import DSG_SignInterface from "./dsgSign.attributes";
+import DSG_SignInterface from "./tool.attributes";
 
 export default interface USG_Attributes {
   id: number;

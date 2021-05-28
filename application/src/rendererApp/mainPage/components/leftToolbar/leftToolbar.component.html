@@ -12,12 +12,12 @@
       mode="indeterminate"
       >
     </mat-progress-spinner>
-    <tm-usg
-      *ngFor="let group of usgList$ | async"
-      [usg]="group"
+    <tm-tools-group
+      *ngFor="let group of toolGroups$ | async"
+      [group]="group"
       [scrollTop]="scrollTop"
-      (selectSign)="onSelectSign($event)"
-    ></tm-usg>
+      (selectTool)="onSelectTool($event)"
+    ></tm-tools-group>
   </div>
 </div>
 <button mat-icon-button color="primary" aria-label="down" title="Вниз">
