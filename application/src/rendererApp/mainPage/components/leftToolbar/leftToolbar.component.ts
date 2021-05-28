@@ -5,10 +5,10 @@ import { Observable, of } from "rxjs";
 import AppState from "../../../app.state";
 import ErrorInterface from "../../../shared/types/error.interface";
 import MilSignReqInterface from '../../types/milSignReq.interface';
-import USG_WithStateInterface from "../../types/usgWithState.interface";
+import USG_WithStateInterface from "../../types/toolGroupWithState.interface";
 import { getSelectedToolAction } from "../canvas/store/actions/getSelectedTool.action";
-import { getUSG_ListAction } from "./store/actions/getUSG_List.action";
-import { updateSelectedUSG_Action } from './store/actions/updateSelectedUSG.action';
+import { getToolGroupsAction } from "./store/actions/getToolGroups.action";
+import { updateSelectedToolGroupAction } from './store/actions/updateSelectedToolGroup.action';
 import { errorSelector, isLoadingSelector, usgListSelector } from "./store/leftToolbar.selectors";
 
 @Component({
@@ -34,7 +34,7 @@ export default class LeftToolbarComponent implements OnInit {
   }
 
   fetchData(): void {
-    this.store.dispatch(getUSG_ListAction());
+    this.store.dispatch(getToolGroupsAction());
   }
 
   ngOnInit(): void {
@@ -47,7 +47,7 @@ export default class LeftToolbarComponent implements OnInit {
   }
 
   onSelectSign(selected: MilSignReqInterface): void {
-    this.store.dispatch(updateSelectedUSG_Action({ selected }));
+    this.store.dispatch(updateSelectedToolGroupAction({ selected }));
     this.store.dispatch(getSelectedToolAction());
   }
 }

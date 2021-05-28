@@ -40,7 +40,7 @@ export default class RendererLayers {
             position: nextNumber,
             title: `Шар ${nextNumber + 1}`,
             visible: true,
-            value: this.canvas.nested()
+            value: this.canvas.nested().id(`layer-${nextNumber}`)
         })
     }
 

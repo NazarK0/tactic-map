@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
 import MapInterface from 'src/rendererApp/mainPage/types/map.interface';
-import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.interface';
+import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.type';
 
 import AppState from '../../../../app.state';
 import ErrorInterface from '../../../../shared/types/error.interface';

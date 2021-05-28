@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.interface';
+import SelectedToolInterface from 'src/rendererApp/mainPage/types/selectedTool.type';
 
 import ErrorInterface from '../../../../../shared/types/error.interface';
 import CanvasActionTypes from '../canvas.action-types';

@@ -3,8 +3,9 @@ import { routerNavigationAction } from '@ngrx/router-store';
 import { Action,createReducer, on } from '@ngrx/store';
 
 import LeftToolbarState from '../../../types/leftToolbar.state';
-import { getUSG_ListAction, getUSG_ListFailureAction,getUSG_ListSuccessAction } from './actions/getUSG_List.action';
-import { updateSelectedUSG_Action, updateSelectedUSG_FailureAction,updateSelectedUSG_SuccessAction } from './actions/updateSelectedUSG.action';
+import { getToolGroupsAction, getToolGroupsSuccessAction, getToolGroupsFailureAction } from './actions/getToolGroups.action';
+import { updateSelectedToolGroupAction, updateSelectedToolGroupSuccessAction, updateSelectedToolGroupFailureAction } from './actions/updateSelectedToolGroup.action';
+
 
 const initialState: LeftToolbarState = {
   isLoading: false,
@@ -13,40 +14,40 @@ const initialState: LeftToolbarState = {
 };
 
 const reducer = createReducer(initialState,
-  on(getUSG_ListAction,
+  on(getToolGroupsAction,
       (state): LeftToolbarState => ({
         ...state,
         isLoading: true,
       })
   ),
-  on(getUSG_ListSuccessAction,
+  on(getToolGroupsSuccessAction,
       (state, action): LeftToolbarState => ({
         ...state,
         isLoading: false,
-        data: action.usgList,
+        data: action.toolGroups,
       })
   ),
-  on(getUSG_ListFailureAction,
+  on(getToolGroupsFailureAction,
       (state, action): LeftToolbarState => ({
         ...state,
         isLoading: false,
         error: action.error
       })
   ),
-  on(updateSelectedUSG_Action,
+  on(updateSelectedToolGroupAction,
       (state): LeftToolbarState => ({
         ...state,
         isLoading: true,
       })
   ),
-  on(updateSelectedUSG_SuccessAction,
+  on(updateSelectedToolGroupSuccessAction,
     (state, action): LeftToolbarState => ({
       ...state,
       isLoading: false,
-      data: action.usgList,
+      data: action.toolGroups,
     })
   ),
-  on(updateSelectedUSG_FailureAction,
+  on(updateSelectedToolGroupFailureAction,
       (state, action): LeftToolbarState => ({
         ...state,
         isLoading: false,

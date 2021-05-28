@@ -8,17 +8,17 @@ import * as util from 'util';
 import canvasIpcMessages from "./canvas.ipcMessages";
 
 export default function canvasController(): void {
-  const readFile = util.promisify(fs.readFile);
+  // const readFile = util.promisify(fs.readFile);
 
-  ipcMain.on(canvasIpcMessages.getSvgSource, async (event, args) => {
-    const { queryParams: { url } } = args;
+  ipcMain.on(canvasIpcMessages.getToolExtraData, async (event, args) => {
+    const { queryParams: { tool } } = args;
     let response;
 
     try {
-      const svgSource = (await readFile(url)).toString();
+      const extras = {};
 
       response = {
-        data: svgSource,
+        data: extras,
         status: 'ok'
       };
     } catch (error) {

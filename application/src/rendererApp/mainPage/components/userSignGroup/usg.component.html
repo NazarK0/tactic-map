@@ -3,7 +3,7 @@
     <mat-button-toggle-group
       [name]="usgProps.id.toString()"
       [style.top]="offsetTop"
-      [value]="usgProps.selectedSign?.value"
+      [value]="usgProps.selectedSign?.url"
       class="sign-group"
       (change)="onSelectSign($event)"
     >
@@ -28,7 +28,7 @@
     (click)="onToggle()"
     [title]="usgProps.title"
   >
-    <img *ngIf="usgProps.isSelected" [src]="'file://'+ usgProps.selectedSign?.value" class="toggle-img">
+    <img *ngIf="usgProps.isSelected" [src]="'file://'+ usgProps.selectedSign?.url" class="toggle-img">
     <div *ngIf="!usgProps.isSelected" class="group-circle"></div>
   </button>
 </div>

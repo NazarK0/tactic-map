@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector, MemoizedSelector } from '@ngrx/store';
-import USG_WithStateInterface from 'src/rendererApp/mainPage/types/usgWithState.interface';
+import USG_WithStateInterface from 'src/rendererApp/mainPage/types/toolGroupWithState.interface';
 
 import AppState from '../../../../app.state';
 import ErrorInterface from '../../../../shared/types/error.interface';

@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from "@angular/core";
 
 import MilSignReqInterface from "../../types/milSignReq.interface";
-import USG_WithStateInterface from "../../types/usgWithState.interface";
+import SelectedToolTypes from "../../types/selectedToolTypes.enum";
+import USG_WithStateInterface from "../../types/toolGroupWithState.interface";
 
 @Component({
   selector: 'tm-usg',
@@ -36,12 +37,13 @@ export default class USG_Component implements OnInit, OnChanges {
   onSelectSign(event: any): void {
     const usgId = Number(event.source.name);
     const signId = Number(event.source.id);
-    const value: string = event.value;
+    const url: string = event.value;
 
     this.selectSignEvent.emit({ 
       usgId,
       signId,
-      value,
+      url,
+      type: SelectedToolTypes.MilSign
     });
   }
 }

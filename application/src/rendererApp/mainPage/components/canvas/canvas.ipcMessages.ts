@@ -1,5 +1,5 @@
 enum canvasIpcMessages {
-    getSvgSource = 'get-svg-source-message',
-  }
+  getToolExtraData = 'get-tool-extra-data-message',
+}
   
-  export default canvasIpcMessages;
+export default canvasIpcMessages;

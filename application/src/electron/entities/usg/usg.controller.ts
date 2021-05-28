@@ -119,7 +119,7 @@ export default function usgController(models: ModelsInterface, window: BrowserWi
           id: group.id,
           title: group.title,
           description: group.description,
-          signs: group.DsgSigns.map(s => ({...s, sign: path.join(app.getPath('documents'), s.sign )}))
+          signs: group.DsgSigns.map(s => ({...s, url: path.join(app.getPath('documents'), s.sign ), with: 50, height: 60 }))
         })),
         status: 'ok'
       };

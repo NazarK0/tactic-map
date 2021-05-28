@@ -5,7 +5,7 @@ import { Observable, Subscription } from "rxjs";
 import AppState from "../../../app.state";
 import ErrorInterface from "../../../shared/types/error.interface";
 import MapInterface from "../../types/map.interface";
-import SelectedToolInterface from "../../types/selectedTool.interface";
+import SelectedToolInterface from "../../types/selectedTool.type";
 import { getMapAction } from "./store/actions/getMap.action";
 import { Image, Svg, SVG } from '@svgdotjs/svg.js'
 import { currentLayerIndexSelector, errorSelector, isLoadingSelector, mapSelector, selectedToolSelector } from "./store/canvas.selectors";
@@ -55,11 +55,12 @@ export default class CanvasComponent implements AfterViewInit, OnDestroy {
       if (this.tool && this.currentLayer) {
         switch (this.tool.type) {
           case SelectedToolTypes.MilSign:
-            const toolSrc = this.tool.tool.svgSrc;
+            const sign = this.tool;
+            this.svg.defs
             
-            // const sign = this.currentLayer.svg(toolSrc);
-            // sign.move(event.x, event.y);
-            const sign = this.currentLayer.element('svg').words(toolSrc);
+            this.currentLayer.image(sign.url)
+            .move(event.x - sign.width / 2, event.y - sign.height / 2);
+            // const sign = this.currentLayer.use()
             // sign.mo
             break;
           default:
@@ -111,7 +112,7 @@ export default class CanvasComponent implements AfterViewInit, OnDestroy {
     if (this.rBackground) {
       this.rBackground.load(map.url)
     } else {
-      this.rBackground = this.svg.image(map.url)
+      this.rBackground = this.svg.image(map.url).id('background-map')
     }
     
     this.svg.size(map.width, map.height);

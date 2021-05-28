@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { getSvgSourceAction, getSvgSourceSuccessAction, getSvgSourceFailureAction } from '../actions/getSvgSource.action';
-import CanvasService from '../../canvas.service';
+import CanvasService from '../../../../../shared/services/canvas.service';
 
 @Injectable()
 export default class GetSvgSourceEffect {
